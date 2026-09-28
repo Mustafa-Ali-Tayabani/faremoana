@@ -1,0 +1,165 @@
+/*
+ * Global design tokens — the single source for colours, fonts, gradients and shadows.
+ * Values come from the original Elementor kit. Components must reference these
+ * variables instead of hard-coding colours or font stacks.
+ */
+:root {
+  /* ---------- Brand palette ---------- */
+  --c-white: #fff;
+  --c-black: #000;
+  --c-ink: #000;
+  --c-accent: #29d9d5;
+  --c-accent-strong: #1fd2ce;
+  --c-sand: #dfd8cb;
+  --c-muted: #dbdbdb;
+  --c-brand-blue: #1f6fc0;
+  --c-cta-red: #e94057;
+  --c-error: #ff8a8a;
+
+  /* ---------- Surfaces ---------- */
+  --c-navy: #102a62;
+  --c-navy-deep: #0b1f4d;
+  --c-services-bg: #e3eaf0;
+  --c-card-ink: #091b40;
+  --c-card-text: #242631;
+  --c-divider: #eee;
+  --c-table-stripe: #f5f5f5;
+  --c-table-border: #d9d9d9;
+
+  /* ---------- Ocean shades (gradients, placeholders) ---------- */
+  --c-ocean-light: #3fb7d9;
+  --c-ocean-sky: #4aa4dc;
+  --c-ocean-mid: #1566a8;
+  --c-ocean-blue: #1c65b0;
+  --c-ocean-deep: #133a82;
+  --c-ocean-abyss: #0b2a5c;
+  --c-teal-1: #2c3e50;
+  --c-teal-2: #0d4a55;
+  --c-teal-3: #062a33;
+
+  /* ---------- Transparent whites / blacks ---------- */
+  --c-white-80: rgba(255, 255, 255, 0.8);
+  --c-white-54: rgba(255, 255, 255, 0.54);
+  --c-white-35: rgba(255, 255, 255, 0.35);
+  --c-white-21: rgba(255, 255, 255, 0.21);
+  --c-white-3: rgba(255, 255, 255, 0.025);
+  --c-line-on-dark: rgba(234, 234, 234, 0.22);
+  --overlay-banner: rgba(0, 0, 0, 0.12);
+  --overlay-hero: rgba(0, 0, 0, 0.18);
+  --overlay-backdrop: rgba(0, 0, 0, 0.5);
+
+  /* ---------- Shadows ---------- */
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.08);
+  --shadow-menu: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --shadow-raised: 0 6px 24px rgba(0, 0, 0, 0.12);
+  --shadow-photo: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --shadow-tile: 0 0 20px rgba(0, 0, 0, 0.18);
+
+  /* ---------- Gradients ---------- */
+  --grad-placeholder:
+    radial-gradient(ellipse at 30% 20%, var(--c-white-35), transparent 55%),
+    linear-gradient(160deg, var(--c-ocean-light) 0%, var(--c-ocean-mid) 45%, var(--c-ocean-abyss) 100%);
+  --grad-ocean-band:
+    radial-gradient(ellipse 80% 40% at 50% 0%, var(--c-ocean-sky) 0%, transparent 70%),
+    linear-gradient(180deg, var(--c-ocean-blue) 0%, var(--c-ocean-deep) 22%, var(--c-navy) 40%, var(--c-navy) 100%);
+  --grad-elearning: linear-gradient(180deg, var(--c-teal-1) 0%, var(--c-teal-2) 55%, var(--c-teal-3) 100%);
+  --pattern-waves: repeating-radial-gradient(circle at 0 100%, transparent 0 18px, var(--c-white-3) 18px 20px);
+
+  /* ---------- Typography (same families as the original site) ---------- */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-copy: 'Montserrat', sans-serif;
+  --font-alt: 'Inter', sans-serif;
+  --font-system: Helvetica, Arial, sans-serif;
+  --font-arial: Arial, Helvetica, sans-serif;
+
+  /* ---------- Type scale (measured from the live site at 1440 / 768 / 390px) ---------- */
+  --fs-hero-title: 55px;
+  --fs-h2: 40px;
+  --lh-h2: 1.3;
+  --fs-card-title: 17px;
+
+  --fs-nav: 13px;
+  --lh-nav: 24px;
+  --fs-eyebrow: 18px;
+  --lh-eyebrow: 24px;
+  --fs-copy: 15px;
+  --lh-copy: 1.7;
+
+  --fs-slide-eyebrow: 26px;
+  --fs-slide-title: 40px;
+  --lh-slide-title: 1.4;
+  --fs-slide-subtitle: 15px;
+
+  --fs-service-title: 18px;
+
+  /* Promo, “why” cards and event cards: Inter on desktop/tablet, Poppins on mobile. */
+  --font-feature: var(--font-alt);
+  --fs-promo-title: 60px;
+  --fw-promo-title: 600;
+  --fs-promo-date: 24px;
+  --fs-promo-price: 40px;
+  --fw-promo-price: 600;
+  --fs-reason-title: 22px;
+  --fw-reason-title: 500;
+  --fs-reason-text: 16px;
+  --fw-reason-text: 400;
+  --fs-event-title: 22px;
+  --fw-event-title: 700;
+  --lh-event: 33.6px;
+  --fs-event-date: 18px;
+  --fw-event-date: 300;
+
+  --fs-footer-bottom: 15px;
+
+  /* ---------- Layout ---------- */
+  --container: 1140px;
+  --gutter: 20px;
+  --header-h: 138px;
+  --radius-card: 10px;
+  --radius-pill: 150px;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --fs-hero-title: 40px;
+    --fs-h2: 19px;
+    --fs-nav: 15px;
+    --fs-slide-eyebrow: 50px;
+    --fs-slide-title: 19px;
+    --fs-event-title: 19px;
+    --fs-event-date: 15px;
+    --header-h: 90px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fs-hero-title: 28px;
+    --gutter: 16px;
+    --header-h: 72px;
+    --fs-nav: 14px;
+    --fs-eyebrow: 16px;
+    --lh-eyebrow: 22.4px;
+    --fs-copy: 14px;
+    --fs-slide-eyebrow: 40px;
+
+    --font-feature: var(--font-heading);
+    --fs-promo-title: 19px;
+    --fw-promo-title: 500;
+    --fs-promo-date: 16px;
+    --fs-promo-price: 19px;
+    --fw-promo-price: 700;
+    --fs-reason-title: 16px;
+    --fw-reason-title: 600;
+    --fs-reason-text: 14px;
+    --fw-reason-text: 300;
+    --fs-event-title: 16px;
+    --fw-event-title: 600;
+    --lh-event: 1.4;
+    --fs-event-date: 14px;
+    --fw-event-date: 400;
+
+    --fs-footer-bottom: 14px;
+  }
+}

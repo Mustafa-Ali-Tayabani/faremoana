@@ -1,0 +1,105 @@
+@let e = event();
+<app-page-hero [title]="e.title" [image]="e.kind === 'voyage' ? 'images/heroes/voyages.webp' : 'images/heroes/evenements.webp'" />
+
+<div class="container layout">
+  <article class="main">
+    <h2>{{ e.headline ?? e.title }}</h2>
+    @for (p of e.intro ?? []; track $index) {
+      <p class="copy">{{ p }}</p>
+    }
+
+    @if (gallery().length) {
+      <div class="carousel" aria-roledescription="carousel" [attr.aria-label]="'Photos – ' + e.title">
+        <div class="track" [style.--slide]="slide()">
+          @for (src of gallery(); track src) {
+            <app-media class="photo" [src]="src" [alt]="e.title" />
+          }
+        </div>
+        @if (gallery().length > 2) {
+          <button type="button" class="arrow prev" (click)="step('slide', -1)" aria-label="Photo précédente">
+            <app-icon name="chevron-left" [size]="18" />
+          </button>
+          <button type="button" class="arrow next" (click)="step('slide', 1)" aria-label="Photo suivante">
+            <app-icon name="chevron-right" [size]="18" />
+          </button>
+          <div class="dots">
+            @for (d of gallery().slice(1); track $index) {
+              <button type="button" [class.active]="$index === slide()" (click)="goToSlide($index)" [attr.aria-label]="'Photo ' + ($index + 1)"></button>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (e.included?.length || e.notIncluded?.length) {
+      <div class="lists">
+        @if (e.included?.length) {
+          <section>
+            <h3>Inclus</h3>
+            <ul>
+              @for (item of e.included; track item) {
+                <li><app-icon name="check" [size]="15" class="yes" />{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+        @if (e.notIncluded?.length) {
+          <section>
+            <h3>Non inclus</h3>
+            <ul>
+              @for (item of e.notIncluded; track item) {
+                <li><app-icon name="close" [size]="13" class="no" />{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+    }
+
+    @if (e.conditions?.length) {
+      <details class="accordion" open>
+        <summary>CONDITIONS ET INSCRIPTION <app-icon name="chevron-left" [size]="14" /></summary>
+      </details>
+      <ul class="conditions">
+        @for (c of e.conditions; track c) {
+          <li>{{ c }}</li>
+        }
+      </ul>
+    }
+
+    <a class="btn btn-filled" routerLink="/contact">S’inscrire</a>
+  </article>
+
+  <aside class="sidebar">
+    @for (price of e.prices ?? []; track price.label) {
+      <p class="price">{{ price.amount }} <small>{{ price.label }}</small></p>
+    }
+
+    @if (e.details?.length) {
+      <h3>Détails</h3>
+      <ul class="details">
+        @for (d of e.details; track d; let i = $index) {
+          <li><app-icon [name]="detailIcon(i)" [size]="16" />{{ d }}</li>
+        }
+      </ul>
+    }
+
+    @if (mapUrl(); as url) {
+      <h3>Localisation</h3>
+      <iframe class="map" [src]="url" [title]="'Carte : ' + e.location" loading="lazy"></iframe>
+    }
+
+    @if (others().length) {
+      <h3>{{ e.kind === 'voyage' ? 'Voyages actuels' : 'Évènements actuels' }}</h3>
+      <div class="other">
+        <button type="button" class="nav" (click)="step('other', -1)" aria-label="Précédent">
+          <app-icon name="chevron-left" [size]="14" />
+        </button>
+        <app-info-card [card]="others()[other()]" variant="event" />
+        <button type="button" class="nav" (click)="step('other', 1)" aria-label="Suivant">
+          <app-icon name="chevron-right" [size]="14" />
+        </button>
+      </div>
+    }
+  </aside>
+</div>

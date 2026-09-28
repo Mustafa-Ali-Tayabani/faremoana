@@ -1,0 +1,42 @@
+<footer>
+  <div class="container columns">
+    <section class="contacts" aria-labelledby="footer-contacts">
+      <h2 id="footer-contacts">CONTACTS</h2>
+      <ul>
+        <li><app-icon name="clock" /><span>{{ site.hours }}</span></li>
+        <li>
+          <app-icon name="map" />
+          <a [href]="site.mapsUrl" target="_blank" rel="noopener">
+            @for (line of site.address; track line) {
+              {{ line }}<br />
+            }
+          </a>
+        </li>
+        <li><app-icon name="phone" /><a [href]="site.phone.href">{{ site.phone.label }}</a></li>
+        <li><app-icon name="mail" /><a [href]="'mailto:' + site.email">{{ site.email }}</a></li>
+      </ul>
+    </section>
+
+    <section class="brand">
+      <a routerLink="/" aria-label="Fare Moana – accueil"><app-logo class="logo" /></a>
+      <p>Suivez-nous sur les réseaux sociaux</p>
+      <ul class="socials">
+        @for (s of socials; track s.network) {
+          <li>
+            <a [href]="s.url" target="_blank" rel="noopener" [attr.aria-label]="s.label">
+              <app-icon [name]="s.network" [size]="16" />
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <div class="badge">
+      <img [src]="site.badge" alt="PADI 5 Star Instructor Development Center" loading="lazy" (error)="$any($event.target).hidden = true" />
+    </div>
+  </div>
+
+  <div class="bottom">
+    Copyright © {{ year }} {{ site.copyrightHolder }} – Tous droits réservés
+  </div>
+</footer>

@@ -1,0 +1,280 @@
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* ---------- Shared blocks ---------- */
+.checks {
+  li { display: flex; gap: 12px; align-items: center; padding: 3px 0; font: 300 15px / 1.5 var(--font-copy); }
+  app-icon { flex: none; color: var(--c-accent); }
+}
+
+.booking {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 440px;
+  margin-top: 50px;
+
+  &.single { grid-template-columns: 1fr; max-width: 560px; min-height: 0; }
+}
+
+/* ---------- Generic page (category, services, voyages…) ---------- */
+.page {
+  max-width: calc(1120px + 2 * var(--gutter));
+  padding-top: 50px;
+  padding-bottom: 80px;
+  font: 300 15px / 24px var(--font-copy);
+
+  /* Category intros on the original: Montserrat 16/27.2, second paragraph in regular weight. */
+  > .intro { margin: 0 0 14px; font: 300 16px / 27.2px var(--font-copy); }
+  > .intro.lead { font-weight: 400; }
+}
+
+.intro-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  margin: 40px 0 10px 10px;
+  img { display: block; max-width: 100%; height: auto; }
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 50px;
+
+  .feature-cta { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+  .feature-cta img { width: 100%; max-width: 380px; }
+  .feature-photo { display: block; width: 100%; border-radius: var(--radius-card); }
+}
+
+.chart { display: block; width: 100%; height: auto; margin: 60px auto 0; }
+
+.text-section {
+  margin-top: 28px;
+  h2 { margin: 0 0 8px; color: var(--c-ink); font: 600 15px / 1.5 var(--font-heading); }
+  p { margin: 0 0 12px; }
+}
+
+.list-title {
+  margin: 40px 0 20px;
+  padding-left: 10px;
+  color: var(--c-accent);
+  font: 600 18px / 23.4px var(--font-heading);
+
+  &.center {
+    margin-top: 36px;
+    padding: 0;
+    color: var(--c-ink);
+    font: 500 18px / 21.6px var(--font-heading);
+    letter-spacing: 0.8px;
+    text-align: center;
+  }
+}
+
+.links {
+  padding-left: 10px;
+  a { font: 300 15px / 24px var(--font-copy); &:hover { color: var(--c-accent); } }
+}
+
+/* Formations loisirs overview */
+.accordions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 40px;
+  margin-top: 30px;
+
+  details, .accordion-link { border-bottom: 1px solid var(--c-muted); }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 12px;
+    font: 500 20px / 20px var(--font-copy);
+    cursor: pointer;
+    list-style: none;
+    &::-webkit-details-marker { display: none; }
+    app-icon { transition: transform 0.2s; }
+  }
+  details[open] summary app-icon { transform: rotate(180deg); }
+  details ul { padding: 4px 6px 14px 16px; }
+  details li a { font-size: 14px; line-height: 1.9; text-decoration: none; }
+  a:hover { color: var(--c-accent); }
+  .accordion-link { display: block; padding: 10px 6px; }
+}
+
+/* Services grid: 3 × 321px cards, 20px gap (1000px) on the original. */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 20px auto 0;
+}
+
+.partners {
+  margin-top: 20px;
+
+  li {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--c-divider);
+  }
+  .partner-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+    img { max-width: 220px; max-height: 90px; }
+    img:not([hidden]) + span { display: none; }
+    span { color: var(--c-brand-blue); font: 700 22px / 1.2 var(--font-heading); text-align: center; }
+  }
+  h3 { margin: 0 0 4px; font: 600 14px / 1.4 var(--font-heading); text-decoration: underline; }
+  h3 a:hover { color: var(--c-accent); }
+  p { margin: 0; font-size: 14px; }
+}
+
+.price-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  padding: 50px 4%;
+  border: 3px solid var(--c-accent);
+
+  > app-icon { color: var(--c-accent); }
+  h2 { margin: 10px 0 36px; color: var(--c-ink); font: 600 16px / 1.4 var(--font-heading); }
+  .btn { margin-top: 40px; padding: 16px 36px; }
+}
+
+.table-scroll { width: 100%; overflow-x: auto; }
+
+table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font: 300 13px / 1.4 var(--font-copy);
+
+  th, td { padding: 14px 16px; border: 1px solid var(--c-table-border); text-align: left; }
+  th { font-weight: 400; }
+  tbody tr:nth-child(odd) { background: var(--c-table-stripe); }
+  td:first-child { width: 48px; }
+  td:nth-child(n + 3), th:nth-child(n + 3) { white-space: nowrap; }
+}
+
+/* ---------- Course ---------- */
+.course { padding-top: 60px; padding-bottom: 40px; }
+
+.course-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  color: var(--c-accent);
+  font: 600 18px / 1.4 var(--font-heading);
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+}
+
+.course-intro h2 { margin: 0 0 16px; font: 600 var(--fs-h2) / 1.3 var(--font-heading); }
+
+.media-wrap { position: relative; padding-bottom: 30px; }
+.course-img { width: 70%; aspect-ratio: 3 / 2; border-radius: 6px; }
+
+.follow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  padding: 12px 40px 16px;
+  background: var(--c-white);
+  border-radius: 6px;
+  box-shadow: var(--shadow-raised);
+  text-align: center;
+
+  strong { display: block; margin-bottom: 8px; font: 600 16px / 1.4 var(--font-heading); }
+  ul { display: flex; gap: 22px; justify-content: center; }
+  a { color: var(--c-accent); }
+}
+
+.video {
+  align-self: center;
+  aspect-ratio: 16 / 9;
+  background: var(--c-black);
+  iframe { display: block; width: 100%; height: 100%; border: 0; }
+}
+
+.prose {
+  margin-top: 50px;
+  font: 300 15px / 1.7 var(--font-copy);
+  text-align: justify;
+  p { margin: 0 0 22px; }
+  p:first-child { font-weight: 400; }
+  h3 { margin: 30px 0 10px; color: var(--c-ink); font: 600 17px / 1.4 var(--font-heading); }
+}
+
+.bullets {
+  margin: -6px 0 30px;
+  padding-left: 22px;
+  list-style: disc;
+  font: 300 var(--fs-copy) / var(--lh-copy) var(--font-copy);
+}
+
+.prose .dashes { margin: 0 0 22px; padding-left: 0; list-style: none; }
+.prose .dashes li::before { content: '– '; }
+
+.checklists {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin: 10px 0 10px;
+  padding-left: 10px;
+
+  h3 { margin: 0 0 14px; font: 600 17px / 1.4 var(--font-heading); }
+}
+
+/* “PLUS DE COURS”, measured on the original: 40px turquoise heading, 5 × 228px columns in the
+   1140px container, left-aligned when a page links fewer courses. */
+.more {
+  padding: 60px 0 80px;
+  h2 { margin: 0 0 48px; color: var(--c-accent); font: 600 var(--fs-h2) / 1.3 var(--font-heading); text-align: center; }
+  .container { max-width: calc(1140px + 2 * var(--gutter)); }
+}
+
+.more-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 228px));
+  justify-content: start;
+  li { display: flex; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .more-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .accordions { grid-template-columns: repeat(2, 1fr); }
+  .partners li { grid-template-columns: 180px 1fr; gap: 24px; }
+}
+
+@media (max-width: 767px) {
+  .course { padding-top: 36px; }
+  .course-head, .booking, .checklists, .accordions { grid-template-columns: 1fr; }
+  .course-img { width: 100%; }
+  .follow { position: relative; left: auto; margin: -20px auto 0; width: max-content; }
+  .booking { min-height: 0; }
+  .more { padding-top: 30px; }
+  .more-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .feature { grid-template-columns: 1fr; }
+  .partners li { grid-template-columns: 1fr; gap: 10px; text-align: center; }
+  .price-table { padding: 30px 12px; }
+}
+
+@media (max-width: 420px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .more-grid { grid-template-columns: minmax(0, 320px); justify-content: center; }
+}

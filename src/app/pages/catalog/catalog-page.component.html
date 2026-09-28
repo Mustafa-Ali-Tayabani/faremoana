@@ -1,0 +1,279 @@
+@let n = node();
+<app-page-hero [title]="n.heroTitle ?? title()" [image]="n.heroImage ?? parent()?.heroImage" />
+
+@if (n.kind === 'course' || n.layout === 'detail') {
+  <article class="container course">
+    <header class="course-head">
+      <div class="course-intro">
+        @if (n.eyebrow ?? parent()?.title ?? parent()?.label; as eyebrow) {
+          <p class="eyebrow">{{ eyebrow }}</p>
+        }
+        <h2>{{ title() }}</h2>
+        <div class="media-wrap">
+          <app-media class="course-img" [src]="n.image" [alt]="title()" />
+          <div class="follow">
+            <strong>Suivez nous</strong>
+            <ul>
+              @for (s of socials; track s.network) {
+                <li>
+                  <a [href]="s.url" target="_blank" rel="noopener" [attr.aria-label]="s.label">
+                    <app-icon [name]="s.network" [size]="14" />
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="video">
+        @if (videoUrl(); as url) {
+          <iframe [src]="url" [title]="title()" loading="lazy" allowfullscreen></iframe>
+        }
+      </div>
+    </header>
+
+    <div class="prose">
+      @for (p of n.intro ?? []; track $index) {
+        @if (isSubheading(p)) {
+          <h3>{{ p }}</h3>
+        } @else {
+          <p>{{ p }}</p>
+        }
+      } @empty {
+        <p>Contenu à venir. Pour plus d’informations, contactez-nous.</p>
+      }
+      @for (section of n.sections ?? []; track $index) {
+        @if (section.heading) {
+          <h3>{{ section.heading }}</h3>
+        }
+        @for (p of section.paragraphs ?? []; track $index) {
+          <p>{{ p }}</p>
+        }
+        @if (section.bullets?.length) {
+          <ul class="dashes">
+            @for (b of section.bullets; track b) {
+              <li>{{ b }}</li>
+            }
+          </ul>
+        }
+      }
+      @if (n.introList?.length) {
+        <ul class="bullets">
+          @for (item of n.introList; track $index) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      }
+    </div>
+
+    @if (n.included?.length || n.requirements?.length) {
+      <div class="checklists">
+        @if (n.included?.length) {
+          <section>
+            <h3>Inclus</h3>
+            <ul class="checks">
+              @for (item of n.included; track item) {
+                <li><app-icon name="check" [size]="16" />{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+        @if (n.requirements?.length) {
+          <section>
+            <h3>Conditions</h3>
+            <ul class="checks">
+              @for (item of n.requirements; track item) {
+                <li><app-icon name="check" [size]="16" />{{ item }}</li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+    }
+
+    <div class="booking">
+      <app-elearning-promo />
+      @if (n.priceBox; as box) {
+        <app-price-box
+          [title]="box.title"
+          [rows]="box.rows"
+          [ctaLabel]="box.cta?.label ?? 'Contactez-nous'"
+          [ctaLink]="box.cta?.link ?? '/contact'"
+        />
+      } @else {
+        <app-price-box [rows]="n.prices ?? []" />
+      }
+    </div>
+  </article>
+
+  @if (n.kind === 'course') {
+  <section class="more">
+    <h2>PLUS DE COURS</h2>
+    <div class="container">
+      <ul class="more-grid">
+        @for (c of related(); track c.path) {
+          <li><app-course-card [course]="c" /></li>
+        }
+      </ul>
+    </div>
+  </section>
+  }
+} @else {
+  <div class="container page">
+    @for (p of n.intro ?? []; track $index) {
+      <p class="intro" [class.lead]="$index === 1">{{ p }}</p>
+    }
+
+    @if (n.introImages?.length) {
+      <div class="intro-images">
+        @for (img of n.introImages; track img.src) {
+          <img [src]="img.src" [alt]="img.alt" [style.width.px]="img.width" loading="lazy" />
+        }
+      </div>
+    }
+
+    @for (section of n.sections ?? []; track $index) {
+      <section class="text-section">
+        @if (section.heading) {
+          <h2>{{ section.heading }}</h2>
+        }
+        @for (p of section.paragraphs ?? []; track $index) {
+          <p>{{ p }}</p>
+        }
+        @if (section.bullets?.length) {
+          <ul class="checks">
+            @for (b of section.bullets; track b) {
+              <li><app-icon name="check" [size]="16" />{{ b }}</li>
+            }
+          </ul>
+        }
+      </section>
+    }
+
+    <!-- Overview with collapsible sub-categories (Formations loisirs) -->
+    @if (isOverview()) {
+      <h2 class="list-title center">Vous trouverez chez Fare Moana le cours qui vous convient !</h2>
+      <div class="accordions">
+        @for (child of n.children; track child.path) {
+          @if (child.children?.length) {
+            <details>
+              <summary>
+                <a [routerLink]="child.path">{{ child.label }}</a>
+                <app-icon name="chevron-down" [size]="14" />
+              </summary>
+              <ul>
+                @for (c of child.children; track c.path) {
+                  <li><a [routerLink]="c.path">{{ c.label }}</a></li>
+                }
+              </ul>
+            </details>
+          } @else {
+            <a class="accordion-link" [routerLink]="child.path">{{ child.label }}</a>
+          }
+        }
+      </div>
+    } @else if (n.children?.length && !n.cards) {
+      <h2 class="list-title">{{ n.listTitle ?? 'Formations' }}</h2>
+      <ul class="links">
+        @for (child of n.children; track child.path) {
+          <li><a [routerLink]="child.path">{{ child.title ?? child.label }}</a></li>
+        }
+      </ul>
+    }
+
+    @if (cards().length) {
+      <ul class="card-grid">
+        @for (card of cards(); track card.link) {
+          <li><app-info-card [card]="card" variant="service" /></li>
+        }
+      </ul>
+    }
+
+    @if (n.partners?.length) {
+      <ul class="partners">
+        @for (partner of n.partners; track partner.name) {
+          <li>
+            <div class="partner-logo">
+              @if (partner.logo) {
+                <img [src]="partner.logo" [alt]="partner.name" loading="lazy" (error)="$any($event.target).hidden = true" />
+              }
+              <span>{{ partner.name }}</span>
+            </div>
+            <div>
+              <h3>
+                @if (partner.url) {
+                  <a [href]="partner.url" target="_blank" rel="noopener">{{ partner.name }}</a>
+                } @else {
+                  {{ partner.name }}
+                }
+              </h3>
+              <p>{{ partner.text }}</p>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+
+    @if (n.priceTable; as table) {
+      <section class="price-table">
+        <app-icon name="tag" [size]="30" />
+        <h2>{{ table.title }}</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                @for (col of table.columns; track $index) {
+                  <th scope="col">{{ col }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of table.rows; track $index) {
+                <tr>
+                  @for (cell of row; track $index) {
+                    <td>{{ cell }}</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <a class="btn btn-filled" routerLink="/contact">Contactez-nous</a>
+      </section>
+    }
+
+    @if (n.priceBox || n.showElearning) {
+      <div class="booking" [class.single]="!n.priceBox">
+        @if (n.showElearning) {
+          <app-elearning-promo />
+        }
+        @if (n.priceBox; as box) {
+          <app-price-box
+            [title]="box.title"
+            [rows]="box.rows"
+            [ctaLabel]="box.cta?.label ?? 'Contactez-nous'"
+            [ctaLink]="box.cta?.link ?? '/contact'"
+          />
+        }
+      </div>
+    }
+
+    @if (n.feature; as f) {
+      <div class="feature">
+        <div class="feature-cta">
+          <img [src]="f.logo" alt="PADI eLearning" loading="lazy" />
+          <a class="btn btn-outline" [href]="f.ctaLink" target="_blank" rel="noopener">{{ f.ctaLabel }}</a>
+        </div>
+        <img class="feature-photo" [src]="f.photo" alt="" loading="lazy" />
+      </div>
+    }
+
+    @if (n.chartImage; as chart) {
+      <img class="chart" [src]="chart.src" [alt]="chart.alt" [style.max-width.px]="chart.width" loading="lazy" />
+    }
+
+    @if (!n.intro?.length && !n.sections?.length && !n.children?.length && !cards().length && !n.partners?.length) {
+      <p>Contenu à venir. Écrivez-nous à <a [href]="'mailto:' + email">{{ email }}</a>.</p>
+    }
+  </div>
+}

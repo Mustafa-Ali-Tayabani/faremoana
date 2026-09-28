@@ -1,0 +1,112 @@
+<h1 class="visually-hidden">Fare Moana – Centre de plongée PADI 5* IDC à Genève</h1>
+<app-hero-slider [slides]="slides" />
+
+<!-- Bienvenue -->
+<section class="welcome">
+  <div class="container welcome-grid">
+    <div>
+      <app-section-heading [eyebrow]="welcome.eyebrow" [lines]="welcome.title" />
+      @for (p of welcome.paragraphs; track $index) {
+        <p class="copy">{{ p }}</p>
+      }
+      <ul class="partners" aria-label="Affiliations">
+        @for (partner of welcome.partners; track partner.name) {
+          <li><img [src]="partner.logo" [alt]="partner.name" [style.height.px]="partner.height" loading="lazy" /></li>
+        }
+      </ul>
+    </div>
+    <div class="collage" aria-hidden="true">
+      @for (img of welcome.collage; track img; let i = $index) {
+        <img [class]="'tile tile-' + i" [src]="img" alt="" loading="lazy" />
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="services" [style.--services-bg]="'url(' + servicesBackground + ')'">
+  <div class="container">
+    <app-section-heading eyebrow="NOS SERVICES" [lines]="['Découvrez tous nos services']" />
+    <ul class="service-grid">
+      @for (s of services; track s.link) {
+        <li class="service-card">
+          <a [routerLink]="s.link" tabindex="-1" aria-hidden="true"><app-media class="thumb" [src]="s.image" /></a>
+          <h3>{{ s.title }}</h3>
+          <a class="more" [routerLink]="s.link">En savoir plus<span class="visually-hidden"> – {{ s.title }}</span></a>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- Featured trip -->
+@if (featured) {
+  <section class="promo" [style.--promo-bg]="'url(' + promoBackground + ')'">
+      <div class="container">
+        <h2>{{ featured.cardTitle[0] }}<br />{{ featured.cardTitle[1] }}</h2>
+        <p class="date">{{ featured.homeDateLabel ?? featured.dateLabel }}</p>
+        @if (featured.price) {
+          <p class="price">{{ featured.price }}</p>
+        }
+        <a class="btn btn-alt btn-light" [routerLink]="featured.path">En savoir plus</a>
+      </div>
+    </section>
+  }
+
+<!-- Pourquoi + Évènements share one background (diver on the right, shark on the left) -->
+<div class="depths" [style.--depths-bg]="'url(' + depthsBackground + ')'">
+  <!-- Pourquoi -->
+  <section class="why">
+    <div class="container">
+      <app-section-heading eyebrow="POURQUOI" [lines]="['Choisir Fare Moana ?']" tone="light" />
+      <ul class="reason-grid">
+        @for (r of reasons; track r.title) {
+          <li class="reason">
+            <h3>{{ r.title }}</h3>
+            <p>{{ r.text }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Évènements -->
+  <section class="events">
+    <div class="container">
+      <div class="events-head">
+        <app-section-heading eyebrow="COMMENCE TON AVENTURE" [lines]="['Les évènements à venir']" tone="light" />
+        <a class="btn btn-alt" routerLink="/evenements">Tous nos évènements</a>
+      </div>
+      <ul class="event-grid">
+        @for (e of events; track e.path) {
+          <li><app-event-card [event]="e" /></li>
+        }
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- Vidéos -->
+@if (videos.length) {
+  <section class="videos" [style.--videos-bg]="'url(' + videosBackground + ')'">
+    <div class="container">
+      <app-section-heading eyebrow="VIDÉOS" [lines]="['Nos dernières aventures de plongée']" tone="light" />
+      <ul class="video-grid">
+        @for (v of videos; track v.id) {
+          <li>
+            <iframe
+              [src]="v.url"
+              [title]="v.title"
+              loading="lazy"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </li>
+        }
+      </ul>
+      <div class="center">
+        <a class="btn btn-alt" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos</a>
+      </div>
+    </div>
+  </section>
+}

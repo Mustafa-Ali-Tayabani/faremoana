@@ -1,0 +1,77 @@
+<a class="skip-link visually-hidden" href="#content">Aller au contenu</a>
+
+<header class="header">
+  <a class="logo" routerLink="/" aria-label="Fare Moana – accueil">
+    <app-logo />
+  </a>
+
+  <nav class="nav" [class.open]="menuOpen()" aria-label="Menu principal">
+    <div class="panel-head">
+      <app-logo />
+      <button type="button" class="icon-btn" (click)="close()" aria-label="Fermer le menu">
+        <app-icon name="close" [size]="26" />
+      </button>
+    </div>
+
+    <ul class="menu">
+      @for (item of nav; track item.path) {
+        <ng-container
+          [ngTemplateOutlet]="menuItem"
+          [ngTemplateOutletContext]="{ $implicit: item, depth: 0 }"
+        />
+      }
+    </ul>
+  </nav>
+
+  <div class="badge">
+    <img [src]="site.badge" alt="PADI 5 Star Instructor Development Center" width="108" height="139" loading="lazy" (error)="$any($event.target).hidden = true" />
+  </div>
+
+  <button
+    type="button"
+    class="icon-btn burger"
+    (click)="toggleMenu()"
+    [attr.aria-expanded]="menuOpen()"
+    aria-label="Ouvrir le menu"
+  >
+    <app-icon name="menu" [size]="28" />
+  </button>
+</header>
+
+@if (menuOpen()) {
+  <div class="overlay" (click)="close()"></div>
+}
+
+<ng-template #menuItem let-item let-depth="depth">
+  <li [class.has-children]="item.children?.length" [class.open]="expanded().has(item.path)">
+    <div class="row">
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+        >{{ item.label }}</a
+      >
+      @if (item.children?.length) {
+        <button
+          type="button"
+          class="sub-toggle"
+          (click)="toggleSubmenu(item.path)"
+          [attr.aria-expanded]="expanded().has(item.path)"
+          [attr.aria-label]="'Sous-menu ' + item.label"
+        >
+          <app-icon name="chevron-down" [size]="14" />
+        </button>
+      }
+    </div>
+    @if (item.children?.length) {
+      <ul class="submenu" [class.nested]="depth > 0">
+        @for (child of item.children; track child.path) {
+          <ng-container
+            [ngTemplateOutlet]="menuItem"
+            [ngTemplateOutletContext]="{ $implicit: child, depth: depth + 1 }"
+          />
+        }
+      </ul>
+    }
+  </li>
+</ng-template>
