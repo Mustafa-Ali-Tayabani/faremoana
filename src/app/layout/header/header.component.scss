@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 
-.burger, .panel-head { display: none; }
+.burger, .panel-head, .panel-contact { display: none; }
 
 /* ---------- Desktop menu ---------- */
 .menu { display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
@@ -132,4 +132,14 @@
   li.open > .submenu { display: block; }
 
   .overlay { position: fixed; inset: 0; background: var(--overlay-backdrop); z-index: 55; }
+
+  .panel-contact {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+
+    .btn { gap: 8px; padding: 14px 10px; font-size: 14px; text-decoration: none; }
+    p { grid-column: 1 / -1; margin: 4px 0 0; color: var(--c-card-text); font: 300 13px / 1.4 var(--font-body); text-align: center; }
+  }
 }

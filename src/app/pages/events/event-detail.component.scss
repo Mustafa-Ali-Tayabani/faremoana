@@ -19,7 +19,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* Photo carousel: 2 photos visible (387×259 each on the original). */
-.carousel { position: relative; margin: 26px 0 40px; overflow: hidden; }
+.carousel { position: relative; margin: 26px 0 40px; overflow: hidden; touch-action: pan-y; }
 .track {
   display: flex;
   gap: 16px;
@@ -45,10 +45,17 @@ ul { margin: 0; padding: 0; list-style: none; }
 .dots {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-top: 14px;
-  button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: var(--c-muted); cursor: pointer; }
-  button.active { background: var(--c-ink); }
+  margin-top: 8px;
+  /* 7px dot drawn inside a 24px touch target. */
+  button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: radial-gradient(circle, var(--c-muted) 3.5px, transparent 4px);
+    cursor: pointer;
+  }
+  button.active { background: radial-gradient(circle, var(--c-ink) 3.5px, transparent 4px); }
 }
 
 .lists {

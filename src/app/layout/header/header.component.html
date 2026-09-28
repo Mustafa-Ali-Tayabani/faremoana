@@ -21,6 +21,13 @@
         />
       }
     </ul>
+
+    <!-- Off-canvas only: quick contact for phones -->
+    <div class="panel-contact">
+      <a class="btn btn-filled" [href]="site.phone.href"><app-icon name="phone" [size]="18" />Appeler</a>
+      <a class="btn btn-outline" [href]="'mailto:' + site.email"><app-icon name="mail" [size]="18" />Écrire</a>
+      <p>{{ site.hours }}</p>
+    </div>
   </nav>
 
   <div class="badge">

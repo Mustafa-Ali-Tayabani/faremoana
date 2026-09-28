@@ -83,7 +83,7 @@ def parse(page: str) -> dict:
         if kind == 'heading':
             last_heading = text(body)
             headings.append(last_heading)
-        elif kind == 'image' and 'image' not in data:
+        elif kind == 'image' and 'imageSource' not in data:
             src = re.search(r'wp-content/uploads/([^"\s]+?\.(?:png|jpe?g|webp))', body)
             if src:
                 data['imageSource'] = src.group(1)

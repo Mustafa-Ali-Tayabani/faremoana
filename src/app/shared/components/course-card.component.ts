@@ -40,12 +40,14 @@ import { MediaComponent } from './media.component';
       background: var(--c-white);
       border-radius: var(--radius-card) var(--radius-card) 0 0;
       color: var(--c-ink);
-      font: 600 18px / 18px var(--font-heading);
+      font: 600 18px / 1.2 var(--font-heading);
       text-align: center;
+      overflow-wrap: anywhere;
     }
     .more {
       margin-top: auto;
-      padding: 20px 40px;
+      max-width: calc(100% - 24px);
+      padding: 20px clamp(16px, 12%, 40px);
       border: 1px solid var(--c-accent);
       border-radius: var(--radius-pill);
       color: var(--c-accent);

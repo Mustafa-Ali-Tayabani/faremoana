@@ -3,7 +3,7 @@
 
 @if (n.kind === 'course' || n.layout === 'detail') {
   <article class="container course">
-    <header class="course-head">
+    <header class="course-head" [class.no-video]="!videoUrl()">
       <div class="course-intro">
         @if (n.eyebrow ?? parent()?.title ?? parent()?.label; as eyebrow) {
           <p class="eyebrow">{{ eyebrow }}</p>
@@ -25,11 +25,11 @@
           </div>
         </div>
       </div>
-      <div class="video">
-        @if (videoUrl(); as url) {
+      @if (videoUrl(); as url) {
+        <div class="video">
           <iframe [src]="url" [title]="title()" loading="lazy" allowfullscreen></iframe>
-        }
-      </div>
+        </div>
+      }
     </header>
 
     <div class="prose">
@@ -105,6 +105,8 @@
       }
     </div>
   </article>
+
+  <app-mobile-action-bar [price]="fromPrice()" [ctaLabel]="n.priceBox?.cta?.label ?? 'S’inscrire'" />
 
   @if (n.kind === 'course') {
   <section class="more">

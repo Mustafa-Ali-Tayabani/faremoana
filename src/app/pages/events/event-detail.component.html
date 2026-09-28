@@ -9,7 +9,14 @@
     }
 
     @if (gallery().length) {
-      <div class="carousel" aria-roledescription="carousel" [attr.aria-label]="'Photos – ' + e.title">
+      <div
+        class="carousel"
+        aria-roledescription="carousel"
+        [attr.aria-label]="'Photos – ' + e.title"
+        (pointerdown)="swipeStart($event)"
+        (pointerup)="swipeEnd($event)"
+        (pointercancel)="swipeX = null"
+      >
         <div class="track" [style.--slide]="slide()">
           @for (src of gallery(); track src) {
             <app-media class="photo" [src]="src" [alt]="e.title" />
@@ -23,8 +30,8 @@
             <app-icon name="chevron-right" [size]="18" />
           </button>
           <div class="dots">
-            @for (d of gallery().slice(1); track $index) {
-              <button type="button" [class.active]="$index === slide()" (click)="goToSlide($index)" [attr.aria-label]="'Photo ' + ($index + 1)"></button>
+            @for (d of dots(); track d) {
+              <button type="button" [class.active]="d === slide()" (click)="goToSlide(d)" [attr.aria-label]="'Photo ' + (d + 1)"></button>
             }
           </div>
         }
@@ -103,3 +110,5 @@
     }
   </aside>
 </div>
+
+<app-mobile-action-bar [price]="e.prices?.[0]?.amount" />

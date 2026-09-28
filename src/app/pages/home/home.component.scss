@@ -72,7 +72,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 
   .thumb { aspect-ratio: 1; }
   h3 { margin: 26px 0 10px; color: var(--c-ink); font: 600 var(--fs-service-title) / 1.2 var(--font-heading); text-transform: uppercase; }
-  .more { color: var(--c-accent); font: 400 13px / 1.4 var(--font-heading); }
+  .more { display: inline-block; padding: 8px 12px; color: var(--c-accent); font: 400 13px / 1.4 var(--font-heading); }
 }
 
 /* ---------- Featured trip ---------- */
@@ -172,24 +172,37 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 1024px) {
   .welcome-grid { grid-template-columns: 1fr; }
   .collage { width: 100%; max-width: 600px; margin: 0 auto; }
-  /* Content widths measured per section on the original. */
-.services .container { max-width: calc(1100px + 2 * var(--gutter)); }
-.depths .container { max-width: calc(1120px + 2 * var(--gutter)); }
 
-.service-grid { grid-template-columns: repeat(3, 1fr); }
+  .service-grid { grid-template-columns: repeat(3, 1fr); }
   .reason-grid, .event-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 767px) {
-  .welcome { padding: 60px 0; }
-  .services, .promo, .why, .events, .videos { padding-top: 60px; padding-bottom: 60px; }
+  .welcome { padding: 50px 0; }
+  .welcome-grid { gap: 36px; }
+  .services, .promo, .why, .events, .videos { padding-top: 56px; padding-bottom: 56px; }
   .promo { min-height: 0; }
-  /* Content widths measured per section on the original. */
-.services .container { max-width: calc(1100px + 2 * var(--gutter)); }
-.depths .container { max-width: calc(1120px + 2 * var(--gutter)); }
-
-.service-grid { grid-template-columns: 1fr 1fr; margin-top: 36px; }
-  .reason-grid, .event-grid, .videos .video-grid { grid-template-columns: 1fr; margin-top: 36px; }
-  .reason { min-height: 0; }
+  .service-grid { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
+  .reason-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 30px; }
+  .reason { min-height: 0; padding: 24px 20px; }
   .events-head { flex-direction: column; align-items: flex-start; }
+
+  /* Events and videos: swipeable rows instead of a long single column. */
+  .event-grid,
+  .videos .video-grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 82%;
+    gap: 14px;
+    margin: 30px calc(-1 * var(--gutter)) 0;
+    padding: 0 var(--gutter) 6px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+    > li { scroll-snap-align: start; }
+  }
+  .videos .center { margin-top: 36px; }
 }

@@ -4,6 +4,8 @@
   height: 690px;
   overflow: hidden;
   background: var(--c-navy-deep);
+  /* Vertical scrolling stays native; horizontal swipes change slides. */
+  touch-action: pan-y;
 }
 
 .slide {
@@ -49,11 +51,39 @@ h2 { margin: 0 0 10px; color: var(--c-white); font: 600 var(--fs-slide-title) / 
 .prev { left: 4px; }
 .next { right: 4px; }
 
+.dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: radial-gradient(circle, var(--c-white-54) 4px, transparent 4.5px);
+    cursor: pointer;
+  }
+  button.active { background: radial-gradient(circle, var(--c-white) 4px, transparent 4.5px); }
+}
+
 @media (max-width: 1024px) { :host { height: 560px; } }
 
 @media (max-width: 767px) {
-  :host { height: 460px; }
+  /* Never taller than the screen below the header (matters in landscape). */
+  :host { height: min(460px, calc(100svh - var(--header-h))); min-height: 320px; }
   .arrow { display: none; }
+  .eyebrow { margin-bottom: 8px; }
+  .subtitle { margin-bottom: 22px; }
+}
+
+/* Short landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+  :host { height: calc(100svh - var(--header-h)); min-height: 280px; }
+  .eyebrow { font-size: 30px; margin-bottom: 4px; }
+  .subtitle { margin-bottom: 14px; }
+  .btn-hero { padding: 12px 30px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

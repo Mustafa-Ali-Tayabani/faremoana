@@ -10,6 +10,7 @@ import { IconComponent } from '../../shared/components/icon.component';
 import { InfoCardComponent } from '../../shared/components/info-card.component';
 import { MediaComponent } from '../../shared/components/media.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
+import { MobileActionBarComponent } from '../../shared/components/mobile-action-bar.component';
 import { PriceBoxComponent } from '../../shared/components/price-box.component';
 
 /**
@@ -27,6 +28,7 @@ import { PriceBoxComponent } from '../../shared/components/price-box.component';
     InfoCardComponent,
     PriceBoxComponent,
     ElearningPromoComponent,
+    MobileActionBarComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './catalog-page.component.html',
@@ -69,6 +71,16 @@ export class CatalogPageComponent {
         .map((e) => ({ title: e.title, meta: e.dateLabel, link: e.path, image: e.image }));
     }
     return cards ?? [];
+  });
+
+  /** “dès CHF 550” for the mobile action bar: the lowest listed price. */
+  protected readonly fromPrice = computed(() => {
+    const prices = (this.node().prices ?? this.node().priceBox?.rows ?? [])
+      .map((p) => ({ label: p.amount, value: Number(p.amount.replace(/[^\d]/g, '')) }))
+      .filter((p) => p.value > 0)
+      .sort((a, b) => a.value - b.value);
+    if (!prices.length) return undefined;
+    return (prices.length > 1 ? 'dès ' : '') + prices[0].label;
   });
 
   /** Category whose children are themselves categories (e.g. Formations loisirs) → accordion overview. */

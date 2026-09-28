@@ -75,6 +75,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .links {
   padding-left: 10px;
   a { font: 300 15px / 24px var(--font-copy); &:hover { color: var(--c-accent); } }
+  @media (max-width: 767px) { a { display: inline-block; padding: 6px 0; } }
 }
 
 /* Formations loisirs overview */
@@ -163,6 +164,14 @@ table {
   tbody tr:nth-child(odd) { background: var(--c-table-stripe); }
   td:first-child { width: 48px; }
   td:nth-child(n + 3), th:nth-child(n + 3) { white-space: nowrap; }
+
+  @media (max-width: 600px) {
+    min-width: 0;
+    font-size: 12px;
+    th, td { padding: 10px 6px; }
+    th:first-child, td:first-child { display: none; }
+    td:nth-child(2) { width: 46%; }
+  }
 }
 
 /* ---------- Course ---------- */
@@ -172,6 +181,9 @@ table {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
+
+  /* No video for this page: let the photo column take the full width. */
+  &.no-video { grid-template-columns: minmax(0, 560px); }
 }
 
 .eyebrow {
@@ -198,7 +210,8 @@ table {
   text-align: center;
 
   strong { display: block; margin-bottom: 8px; font: 600 16px / 1.4 var(--font-heading); }
-  ul { display: flex; gap: 22px; justify-content: center; }
+  ul { display: flex; gap: 6px; justify-content: center; }
+  a { display: grid; place-items: center; width: 32px; height: 32px; }
   a { color: var(--c-accent); }
 }
 
@@ -248,8 +261,9 @@ table {
 
 .more-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 228px));
-  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(0, 228px));
+  /* Pages link 1–5 courses: keep them centred under the heading. */
+  justify-content: center;
   li { display: flex; }
 }
 
@@ -272,6 +286,12 @@ table {
   .feature { grid-template-columns: 1fr; }
   .partners li { grid-template-columns: 1fr; gap: 10px; text-align: center; }
   .price-table { padding: 30px 12px; }
+}
+
+@media (max-width: 767px) {
+  .accordions details li a { display: inline-block; padding: 6px 0; }
+  .accordions summary a { display: inline-block; padding: 4px 0; }
+  .partners h3 a { display: inline-block; padding: 6px 0; }
 }
 
 @media (max-width: 420px) {

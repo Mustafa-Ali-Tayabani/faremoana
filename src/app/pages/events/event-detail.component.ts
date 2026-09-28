@@ -1,17 +1,28 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  PLATFORM_ID,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { CardItem } from '../../core/models/content.models';
 import { ContentService } from '../../core/services/content.service';
 import { IconComponent, IconName } from '../../shared/components/icon.component';
 import { InfoCardComponent } from '../../shared/components/info-card.component';
+import { MobileActionBarComponent } from '../../shared/components/mobile-action-bar.component';
 import { MediaComponent } from '../../shared/components/media.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
 
 /** Event / trip page: 840px main column + 300px sidebar (details, map, other events). */
 @Component({
   selector: 'app-event-detail',
-  imports: [RouterLink, PageHeroComponent, MediaComponent, IconComponent, InfoCardComponent],
+  imports: [RouterLink, PageHeroComponent, MediaComponent, IconComponent, InfoCardComponent, MobileActionBarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss',
@@ -30,7 +41,25 @@ export class EventDetailComponent {
     const e = this.event();
     return e.gallery?.length ? e.gallery : e.image ? [e.image] : [];
   });
-  protected readonly slideCount = computed(() => Math.max(1, this.gallery().length - 1));
+  /** Phones show one photo per slide, larger screens two. */
+  private readonly narrow = signal(false);
+  protected readonly slideCount = computed(() =>
+    Math.max(1, this.gallery().length - (this.narrow() ? 0 : 1)),
+  );
+  protected readonly dots = computed(() => Array.from({ length: this.slideCount() }, (_, i) => i));
+
+  constructor() {
+    if (!isPlatformBrowser(inject(PLATFORM_ID))) return;
+    const query = matchMedia('(max-width: 767px)');
+    // Inputs are not set yet in the constructor: only record the width here.
+    this.narrow.set(query.matches);
+    const update = () => {
+      this.narrow.set(query.matches);
+      this.slide.update((i) => Math.min(i, this.slideCount() - 1));
+    };
+    query.addEventListener('change', update);
+    inject(DestroyRef).onDestroy(() => query.removeEventListener('change', update));
+  }
 
   /** Sidebar “Évènements / Voyages actuels”: same kind, excluding this page. */
   protected readonly others = computed<CardItem[]>(() => {
@@ -58,6 +87,20 @@ export class EventDetailComponent {
       const n = this.others().length;
       this.other.update((i) => (i + delta + n) % n);
     }
+  }
+
+  /** Touch swipe on the photo carousel. */
+  protected swipeX: number | null = null;
+
+  protected swipeStart(event: PointerEvent): void {
+    if (event.pointerType !== 'mouse') this.swipeX = event.clientX;
+  }
+
+  protected swipeEnd(event: PointerEvent): void {
+    if (this.swipeX === null) return;
+    const dx = event.clientX - this.swipeX;
+    this.swipeX = null;
+    if (Math.abs(dx) > 40) this.step('slide', dx < 0 ? 1 : -1);
   }
 
   protected goToSlide(index: number): void {
