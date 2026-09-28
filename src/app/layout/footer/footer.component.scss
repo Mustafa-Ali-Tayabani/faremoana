@@ -60,13 +60,61 @@ h2 { margin: 0 0 12px; color: var(--c-white); font: 600 37px / 1.3 var(--font-he
   text-align: center;
 }
 
-@media (max-width: 767px) {
-  .columns { grid-template-columns: 1fr; gap: 36px; text-align: center; padding-top: 56px; padding-bottom: 40px; }
-  h2 { font-size: 30px; }
-  /* Contact list: a left-aligned block centred on the page. */
-  .contacts ul { display: inline-block; text-align: left; }
-  .contacts li { font-size: 14px; }
-  .brand .logo { height: 160px; }
+/* Tablets: contacts | logo + socials, badge centred underneath. */
+@media (max-width: 1024px) {
+  .columns {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'contacts brand'
+      'badge badge';
+    gap: 40px 32px;
+    padding-top: 72px;
+    padding-bottom: 56px;
+  }
+  .contacts { grid-area: contacts; justify-self: center; }
+  .brand { grid-area: brand; }
+  .brand .logo { height: 170px; }
+  .badge { grid-area: badge; }
   .badge img { height: 180px; }
-  .bottom { padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+}
+
+/* Phones: logo and badge side by side, socials, then a compact contact list. */
+@media (max-width: 767px) {
+  .columns {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'logo badge'
+      'follow follow'
+      'social social'
+      'contacts contacts';
+    gap: 0 20px;
+    align-items: center;
+    padding-top: 44px;
+    padding-bottom: 32px;
+    text-align: center;
+  }
+  .brand { display: contents; }
+  .brand > a { grid-area: logo; justify-self: end; }
+  .brand .logo { height: 112px; }
+  .badge { grid-area: badge; justify-self: start; }
+  .badge img { height: 124px; }
+  .brand p { grid-area: follow; margin: 26px 0 14px; font-size: 15px; }
+  .socials { grid-area: social; gap: 16px; }
+  .socials a { width: 44px; height: 44px; }
+
+  .contacts {
+    grid-area: contacts;
+    justify-self: center;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--c-line-on-dark);
+    text-align: left;
+  }
+  h2 { margin-bottom: 10px; font-size: 24px; text-align: center; }
+  .contacts li { gap: 10px; padding: 5px 0; font-size: 14px; line-height: 1.6; }
+  .contacts app-icon { width: 24px; }
+  /* Phone and email: comfortable touch targets without spreading the list. */
+  .contacts li a { display: inline-block; margin: -8px 0; padding: 8px 0; }
+
+  .bottom { padding: 14px var(--gutter) calc(14px + env(safe-area-inset-bottom)); font-size: 13px; }
 }
