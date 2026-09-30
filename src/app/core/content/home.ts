@@ -41,7 +41,12 @@ export const WELCOME = {
     { name: 'DAN Business Partner', logo: 'images/brand/dan.webp', height: 60 },
     { name: 'Project AWARE', logo: 'images/brand/aware.webp', height: 55 },
   ],
-  collage: ['images/home/welcome-1.webp', 'images/home/welcome-2.webp', 'images/home/welcome-3.webp'],
+  video: {
+    src: 'videos/welcome.mp4',
+    poster: 'videos/welcome-poster.jpg',
+    caption: 'Immersion au Léman avec le club 🌊',
+    tags: ['plongée', 'padi', 'genève'],
+  },
 };
 
 export const SERVICES: ServiceTeaser[] = [
@@ -72,8 +77,8 @@ export const REASONS: Reason[] = [
 ];
 
 /** YouTube video ids shown in the “Vidéos” section. Leave empty to hide the section. */
-export const VIDEOS: { id: string; title: string }[] = [
-  { id: 'QsaiTspKEgI', title: 'Socorro / Revillagigedo Islands' },
-  { id: '4KqV7lcQxh0', title: 'Île Maurice – Avril 2025' },
-  { id: 'C0acy1beGd0', title: 'Bonaire, Caraïbes – Avril 2024' },
+export const VIDEOS: { id: string; title: string; tag?: string }[] = [
+  { id: 'QsaiTspKEgI', title: 'Socorro / Revillagigedo Islands', tag: 'Mexique' },
+  { id: '4KqV7lcQxh0', title: 'Île Maurice – Avril 2025', tag: 'Océan Indien' },
+  { id: 'C0acy1beGd0', title: 'Bonaire, Caraïbes – Avril 2024', tag: 'Caraïbes' },
 ];

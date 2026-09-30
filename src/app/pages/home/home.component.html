@@ -4,7 +4,7 @@
 <!-- Bienvenue -->
 <section class="welcome">
   <div class="container welcome-grid">
-    <div>
+    <div appReveal="left">
       <app-section-heading [eyebrow]="welcome.eyebrow" [lines]="welcome.title" />
       @for (p of welcome.paragraphs; track $index) {
         <p class="copy">{{ p }}</p>
@@ -15,24 +15,27 @@
         }
       </ul>
     </div>
-    <div class="collage" aria-hidden="true">
-      @for (img of welcome.collage; track img; let i = $index) {
-        <img [class]="'tile tile-' + i" [src]="img" alt="" loading="lazy" />
-      }
-    </div>
+    <app-reel
+      appReveal="right"
+      [src]="welcome.video.src"
+      [poster]="welcome.video.poster"
+      [caption]="welcome.video.caption"
+      [tags]="welcome.video.tags"
+      [avatar]="logo"
+    />
   </div>
 </section>
 
 <!-- Services -->
 <section class="services" [style.--services-bg]="'url(' + servicesBackground + ')'">
   <div class="container">
-    <app-section-heading eyebrow="NOS SERVICES" [lines]="['Découvrez tous nos services']" />
+    <app-section-heading appReveal eyebrow="NOS SERVICES" [lines]="['Découvrez tous nos services']" />
     <ul class="service-grid">
       @for (s of services; track s.link) {
-        <li class="service-card">
+        <li class="service-card" appReveal>
           <a [routerLink]="s.link" tabindex="-1" aria-hidden="true"><app-media class="thumb" [src]="s.image" /></a>
           <h3>{{ s.title }}</h3>
-          <a class="more" [routerLink]="s.link">En savoir plus<span class="visually-hidden"> – {{ s.title }}</span></a>
+          <a class="more link-arrow" [routerLink]="s.link">En savoir plus<span class="visually-hidden"> – {{ s.title }}</span><app-icon name="arrow-right" [size]="14" /></a>
         </li>
       }
     </ul>
@@ -42,13 +45,13 @@
 <!-- Featured trip -->
 @if (featured) {
   <section class="promo" [style.--promo-bg]="'url(' + promoBackground + ')'">
-      <div class="container">
+      <div class="container" appReveal="left">
         <h2>{{ featured.cardTitle[0] }}<br />{{ featured.cardTitle[1] }}</h2>
         <p class="date">{{ featured.homeDateLabel ?? featured.dateLabel }}</p>
         @if (featured.price) {
           <p class="price">{{ featured.price }}</p>
         }
-        <a class="btn btn-alt btn-light" [routerLink]="featured.path">En savoir plus</a>
+        <a class="btn btn-glass" [routerLink]="featured.path">Découvrir le voyage <app-icon name="arrow-right" /></a>
       </div>
     </section>
   }
@@ -58,10 +61,10 @@
   <!-- Pourquoi -->
   <section class="why">
     <div class="container">
-      <app-section-heading eyebrow="POURQUOI" [lines]="['Choisir Fare Moana ?']" tone="light" />
+      <app-section-heading appReveal eyebrow="POURQUOI" [lines]="['Choisir Fare Moana ?']" tone="light" />
       <ul class="reason-grid">
         @for (r of reasons; track r.title) {
-          <li class="reason">
+          <li class="reason" appReveal>
             <h3>{{ r.title }}</h3>
             <p>{{ r.text }}</p>
           </li>
@@ -73,13 +76,13 @@
   <!-- Évènements -->
   <section class="events">
     <div class="container">
-      <div class="events-head">
+      <div class="events-head" appReveal>
         <app-section-heading eyebrow="COMMENCE TON AVENTURE" [lines]="['Les évènements à venir']" tone="light" />
-        <a class="btn btn-alt" routerLink="/evenements">Tous nos évènements</a>
+        <a class="btn btn-glass" routerLink="/evenements">Tous nos évènements <app-icon name="calendar" /></a>
       </div>
       <ul class="event-grid">
         @for (e of events; track e.path) {
-          <li><app-event-card [event]="e" /></li>
+          <li><app-event-card appReveal [event]="e" /></li>
         }
       </ul>
     </div>
@@ -88,25 +91,17 @@
 
 <!-- Vidéos -->
 @if (videos.length) {
-  <section class="videos" [style.--videos-bg]="'url(' + videosBackground + ')'">
+  <section class="videos">
     <div class="container">
-      <app-section-heading eyebrow="VIDÉOS" [lines]="['Nos dernières aventures de plongée']" tone="light" />
+      <div class="videos-head" appReveal>
+        <app-section-heading eyebrow="VIDÉOS" [lines]="['Nos dernières aventures de plongée']" />
+        <a class="btn btn-outline" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos <app-icon name="youtube" /></a>
+      </div>
       <ul class="video-grid">
         @for (v of videos; track v.id) {
-          <li>
-            <iframe
-              [src]="v.url"
-              [title]="v.title"
-              loading="lazy"
-              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
-          </li>
+          <li appReveal><app-video-card [id]="v.id" [title]="v.title" [tag]="v.tag" /></li>
         }
       </ul>
-      <div class="center">
-        <a class="btn btn-alt" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos</a>
-      </div>
     </div>
   </section>
 }

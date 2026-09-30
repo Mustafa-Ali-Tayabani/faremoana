@@ -2,7 +2,7 @@
 <app-page-hero [title]="e.title" [image]="e.kind === 'voyage' ? 'images/heroes/voyages.webp' : 'images/heroes/evenements.webp'" />
 
 <div class="container layout">
-  <article class="main">
+  <article class="main" appReveal>
     <h2>{{ e.headline ?? e.title }}</h2>
     @for (p of e.intro ?? []; track $index) {
       <p class="copy">{{ p }}</p>
@@ -74,10 +74,10 @@
       </ul>
     }
 
-    <a class="btn btn-filled" routerLink="/contact">S’inscrire</a>
+    <a class="btn btn-filled" routerLink="/contact">S’inscrire <app-icon name="arrow-right" /></a>
   </article>
 
-  <aside class="sidebar">
+  <aside class="sidebar" appReveal="right">
     @for (price of e.prices ?? []; track price.label) {
       <p class="price">{{ price.amount }} <small>{{ price.label }}</small></p>
     }

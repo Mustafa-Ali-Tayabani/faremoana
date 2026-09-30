@@ -1,49 +1,153 @@
 <a class="skip-link visually-hidden" href="#content">Aller au contenu</a>
 
-<header class="header">
+<header class="bar">
   <a class="logo" routerLink="/" aria-label="Fare Moana – accueil">
     <app-logo />
   </a>
 
-  <nav class="nav" [class.open]="menuOpen()" aria-label="Menu principal">
-    <div class="panel-head">
-      <app-logo />
-      <button type="button" class="icon-btn" (click)="close()" aria-label="Fermer le menu">
-        <app-icon name="close" [size]="26" />
-      </button>
-    </div>
+  <!-- Desktop: mega menu -->
+  <nav class="desk" [class.suppressed]="suppressed()" (mouseleave)="suppressed.set(false)" aria-label="Menu principal">
+    <ul class="desk-menu">
+      @for (entry of mega; track entry.path) {
+        <li [class.has-mega]="entry.kind !== 'link'">
+          <a
+            class="top-link"
+            [routerLink]="entry.path"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: entry.path === '/' }"
+            (click)="suppress()"
+            [attr.aria-haspopup]="entry.kind !== 'link' ? 'true' : null"
+          >
+            {{ entry.label }}
+            @if (entry.kind !== 'link') {
+              <app-icon class="caret" name="chevron-down" [size]="12" />
+            }
+          </a>
 
-    <ul class="menu">
-      @for (item of nav; track item.path) {
-        <ng-container
-          [ngTemplateOutlet]="menuItem"
-          [ngTemplateOutletContext]="{ $implicit: item, depth: 0 }"
-        />
+          @if (entry.kind !== 'link') {
+            <div class="mega" [class.mega-groups]="entry.kind === 'groups'">
+              <div class="mega-body">
+                <div class="mega-main">
+                  @if (entry.kind === 'groups') {
+                    <div class="groups">
+                      @for (group of entry.groups; track group.path) {
+                        <section class="group">
+                          <a class="group-title" [routerLink]="group.path" (click)="suppress()">{{ group.title }}</a>
+                          <ul>
+                            @for (link of group.links; track link.path) {
+                              <li>
+                                <a [routerLink]="link.path" routerLinkActive="active" (click)="suppress()">
+                                  {{ link.label }}<app-icon name="arrow-right" [size]="12" />
+                                </a>
+                              </li>
+                            }
+                          </ul>
+                        </section>
+                      }
+                    </div>
+                    @if (entry.extras.length) {
+                      <div class="extras">
+                        @for (x of entry.extras; track x.path) {
+                          <a [routerLink]="x.path" (click)="suppress()"><app-icon name="play" [size]="12" />{{ x.label }}</a>
+                        }
+                      </div>
+                    }
+                  } @else {
+                    <ul class="tiles">
+                      @for (tile of entry.tiles; track tile.path) {
+                        <li>
+                          <a class="tile" [routerLink]="tile.path" routerLinkActive="active" (click)="suppress()">
+                            <span class="thumb">
+                              @if (tile.image) {
+                                <img [src]="tile.image" alt="" loading="lazy" />
+                              }
+                            </span>
+                            <span class="tile-text">
+                              <strong>{{ tile.label }}</strong>
+                              @if (tile.price) {
+                                <small>{{ tile.price }}</small>
+                              } @else {
+                                <small>Découvrir</small>
+                              }
+                            </span>
+                            <app-icon class="go" name="arrow-right" [size]="14" />
+                          </a>
+                        </li>
+                      }
+                    </ul>
+                  }
+                </div>
+
+                @if (entry.kind === 'tiles' && entry.feature; as f) {
+                  <a class="feature" [routerLink]="f.path" (click)="suppress()">
+                    <span class="feature-img">
+                      @if (f.image) {
+                        <img [src]="f.image" alt="" loading="lazy" />
+                      }
+                    </span>
+                    <span class="feature-body">
+                      <small>À la une</small>
+                      <strong>{{ f.title }}</strong>
+                      <span class="feature-text">{{ f.text }}</span>
+                      <span class="feature-link">Voir tout <app-icon name="arrow-right" [size]="14" /></span>
+                    </span>
+                  </a>
+                }
+              </div>
+
+              <div class="mega-foot">
+                <span>Besoin d’aide pour choisir votre formation ?</span>
+                <a [href]="site.phone.href"><app-icon name="phone" [size]="14" />{{ site.phone.label }}</a>
+                <a routerLink="/contact" (click)="suppress()"><app-icon name="mail" [size]="14" />Nous écrire</a>
+              </div>
+            </div>
+          }
+        </li>
       }
     </ul>
-
-    <!-- Off-canvas only: quick contact for phones -->
-    <div class="panel-contact">
-      <a class="btn btn-filled" [href]="site.phone.href"><app-icon name="phone" [size]="18" />Appeler</a>
-      <a class="btn btn-outline" [href]="'mailto:' + site.email"><app-icon name="mail" [size]="18" />Écrire</a>
-      <p>{{ site.hours }}</p>
-    </div>
   </nav>
 
-  <div class="badge">
-    <img [src]="site.badge" alt="PADI 5 Star Instructor Development Center" width="108" height="139" loading="lazy" (error)="$any($event.target).hidden = true" />
+  <div class="actions">
+    <a class="btn btn-sm cta" routerLink="/contact">Réserver <app-icon name="arrow-right" /></a>
+    <button
+      type="button"
+      class="burger"
+      [class.is-open]="menuOpen()"
+      (click)="toggleMenu()"
+      [attr.aria-expanded]="menuOpen()"
+      aria-label="Ouvrir le menu"
+    >
+      <span></span><span></span><span></span>
+    </button>
   </div>
 
-  <button
-    type="button"
-    class="icon-btn burger"
-    (click)="toggleMenu()"
-    [attr.aria-expanded]="menuOpen()"
-    aria-label="Ouvrir le menu"
-  >
-    <app-icon name="menu" [size]="28" />
-  </button>
+  <!-- PADI 5 Star IDC: hanging tag, top right -->
+  <a class="badge-tag" routerLink="/" aria-label="PADI 5 Star Instructor Development Center">
+    <img [src]="site.badge" alt="PADI 5 Star Instructor Development Center" width="108" height="139" (error)="$any($event.target).hidden = true" />
+  </a>
 </header>
+
+<!-- Tablet / phone: off-canvas menu -->
+<nav class="nav" [class.open]="menuOpen()" aria-label="Menu mobile">
+  <div class="panel-head">
+    <app-logo />
+    <button type="button" class="close" (click)="close()" aria-label="Fermer le menu">
+      <app-icon name="close" [size]="22" />
+    </button>
+  </div>
+
+  <ul class="menu">
+    @for (item of nav; track item.path) {
+      <ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{ $implicit: item, depth: 0 }" />
+    }
+  </ul>
+
+  <div class="panel-contact">
+    <a class="btn btn-filled" [href]="site.phone.href">Appeler <app-icon name="phone" /></a>
+    <a class="btn btn-outline" [href]="'mailto:' + site.email">Écrire <app-icon name="mail" /></a>
+    <p><app-icon name="clock" [size]="14" /> {{ site.hours }}</p>
+  </div>
+</nav>
 
 @if (menuOpen()) {
   <div class="overlay" (click)="close()"></div>
@@ -52,12 +156,9 @@
 <ng-template #menuItem let-item let-depth="depth">
   <li [class.has-children]="item.children?.length" [class.open]="expanded().has(item.path)">
     <div class="row">
-      <a
-        [routerLink]="item.path"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: item.path === '/' }"
-        >{{ item.label }}</a
-      >
+      <a [routerLink]="item.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.path === '/' }">{{
+        item.label
+      }}</a>
       @if (item.children?.length) {
         <button
           type="button"
@@ -66,17 +167,14 @@
           [attr.aria-expanded]="expanded().has(item.path)"
           [attr.aria-label]="'Sous-menu ' + item.label"
         >
-          <app-icon name="chevron-down" [size]="14" />
+          <app-icon name="chevron-down" [size]="16" />
         </button>
       }
     </div>
     @if (item.children?.length) {
-      <ul class="submenu" [class.nested]="depth > 0">
+      <ul class="submenu">
         @for (child of item.children; track child.path) {
-          <ng-container
-            [ngTemplateOutlet]="menuItem"
-            [ngTemplateOutletContext]="{ $implicit: child, depth: depth + 1 }"
-          />
+          <ng-container [ngTemplateOutlet]="menuItem" [ngTemplateOutletContext]="{ $implicit: child, depth: depth + 1 }" />
         }
       </ul>
     }

@@ -4,6 +4,7 @@ import {
   provideRouter,
   withComponentInputBinding,
   withInMemoryScrolling,
+  withViewTransitions,
 } from '@angular/router';
 import { SeoTitleStrategy } from './core/seo/seo-title.strategy';
 
@@ -18,6 +19,8 @@ export const appConfig: ApplicationConfig = {
       // Binds route `data.path` to page component `path` inputs.
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
+      // Cross-fade between pages where the browser supports View Transitions.
+      withViewTransitions({ skipInitialTransition: true }),
     ),
     { provide: TitleStrategy, useClass: SeoTitleStrategy },
     // Pages are prerendered at build time and hydrated in the browser.

@@ -1,0 +1,69 @@
+<div class="glow" aria-hidden="true"></div>
+
+<figure class="reel" role="group" aria-roledescription="vidéo" [attr.aria-label]="'Vidéo Instagram @' + handle">
+  <app-autoplay-video class="video" [src]="src()" [poster]="poster()" [label]="caption()" />
+
+  <!-- Tap layer (play / pause, double-tap to like) -->
+  <button
+    type="button"
+    class="tap"
+    (click)="onTap()"
+    [attr.aria-label]="player().paused() ? 'Lire la vidéo' : 'Mettre la vidéo en pause'"
+  ></button>
+
+  <div class="shade" aria-hidden="true"></div>
+
+  <!-- Story progress + profile -->
+  <div class="top">
+    <div class="progress" aria-hidden="true"><span [style.transform]="'scaleX(' + player().progress() + ')'"></span></div>
+    <div class="author">
+      <a class="avatar" [href]="instagram" target="_blank" rel="noopener" [attr.aria-label]="'Instagram @' + handle">
+        <img [src]="avatar()" alt="" />
+      </a>
+      <a class="handle" [href]="instagram" target="_blank" rel="noopener">{{ handle }}</a>
+      <span class="sep" aria-hidden="true">•</span>
+      <a class="follow" [href]="instagram" target="_blank" rel="noopener">Suivre</a>
+      <app-icon class="ig" name="instagram" [size]="20" />
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="side">
+    <button type="button" class="act" [class.on]="liked()" (click)="toggleLike($event)" [attr.aria-pressed]="liked()" aria-label="J’aime">
+      <app-icon name="heart" [size]="26" />
+    </button>
+    <a class="act" [href]="instagram" target="_blank" rel="noopener" aria-label="Commenter sur Instagram">
+      <app-icon name="message" [size]="25" />
+    </a>
+    <a class="act" [href]="instagram" target="_blank" rel="noopener" aria-label="Partager">
+      <app-icon name="send" [size]="24" />
+    </a>
+    <button type="button" class="act" [class.on]="saved()" (click)="toggleSave($event)" [attr.aria-pressed]="saved()" aria-label="Enregistrer">
+      <app-icon name="bookmark" [size]="23" />
+    </button>
+    <span class="disc" aria-hidden="true"><img [src]="avatar()" alt="" /></span>
+  </div>
+
+  <!-- Caption -->
+  <figcaption class="caption">
+    <p>
+      <strong>{{ handle }}</strong> {{ caption() }}
+      @for (tag of tags(); track tag) {
+        <span class="tag">#{{ tag }}</span>
+      }
+    </p>
+    <p class="audio"><app-icon name="music" [size]="13" /><span class="marquee"><span>Son original · Fare Moana · Son original · Fare Moana ·</span></span></p>
+  </figcaption>
+
+  <!-- Paused indicator -->
+  @if (player().paused()) {
+    <span class="play" aria-hidden="true"><app-icon name="play" [size]="30" /></span>
+  }
+
+  <!-- Double-tap heart -->
+  @if (burst()) {
+    @for (b of [burst()]; track b) {
+      <span class="burst" aria-hidden="true"><app-icon name="heart" [size]="96" /></span>
+    }
+  }
+</figure>

@@ -22,7 +22,7 @@ import { IconComponent } from './icon.component';
     } @empty {
       <p class="note center">Tarifs sur demande</p>
     }
-    <a class="btn btn-filled" [routerLink]="ctaLink()">{{ ctaLabel() }}</a>
+    <a class="btn btn-filled" [routerLink]="ctaLink()">{{ ctaLabel() }} <app-icon name="arrow-right" /></a>
   `,
   styles: `
     :host {
@@ -46,7 +46,7 @@ import { IconComponent } from './icon.component';
     }
     .note { align-self: stretch; margin: 6px 0 0; font: 300 14px / 1.6 var(--font-body); }
     .note.center { align-self: center; margin: 20px 0 30px; }
-    .btn { margin-top: 36px; padding: 16px 36px; }
+    .btn { margin-top: 36px; }
     @media (max-width: 767px) { :host { padding: 30px 20px; } }
   `,
 })

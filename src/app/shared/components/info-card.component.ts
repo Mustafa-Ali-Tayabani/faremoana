@@ -1,7 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
+import { IconComponent } from './icon.component';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CardItem } from '../../core/models/content.models';
+import { RevealDirective } from '../motion/reveal.directive';
 import { MediaComponent } from './media.component';
 
 /**
@@ -11,8 +13,9 @@ import { MediaComponent } from './media.component';
  */
 @Component({
   selector: 'app-info-card',
-  imports: [NgTemplateOutlet, RouterLink, MediaComponent],
+  imports: [IconComponent, NgTemplateOutlet, RouterLink, MediaComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [RevealDirective],
   host: { '[class]': 'variant()' },
   template: `
     <ng-template #content>
@@ -32,7 +35,7 @@ import { MediaComponent } from './media.component';
           <p class="text">{{ card().text }}</p>
         }
         @if (variant() === 'service') {
-          <span class="more">En savoir plus</span>
+          <span class="more link-arrow">En savoir plus <app-icon name="arrow-right" [size]="14" /></span>
         }
       </div>
     </ng-template>
@@ -74,14 +77,7 @@ import { MediaComponent } from './media.component';
     :host(.service) .thumb { aspect-ratio: 319 / 213; }
     :host(.service) .body { align-items: center; padding: 30px 12px; text-align: center; }
     :host(.service) .text { margin-top: 20px; font: 300 15px / 25.5px var(--font-body); }
-    :host(.service) .more {
-      margin-top: auto;
-      padding-top: 22px;
-      color: var(--c-accent);
-      font: 500 15px / 15px var(--font-body);
-      letter-spacing: 0.8px;
-      text-decoration: underline;
-    }
+    :host(.service) .more { margin-top: auto; padding-top: 22px; }
   `,
 })
 export class InfoCardComponent {

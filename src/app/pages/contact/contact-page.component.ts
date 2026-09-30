@@ -3,23 +3,24 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SITE } from '../../core/content/site';
 import { IconComponent } from '../../shared/components/icon.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
 
 /** Contact page: centred heading, contact details and map (same layout as the original). */
 @Component({
   selector: 'app-contact-page',
-  imports: [PageHeroComponent, IconComponent],
+  imports: [RevealDirective, PageHeroComponent, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-page-hero title="Contact" image="images/heroes/contact.webp" />
 
     <section class="container contact">
-      <h2>Commence ton aventure</h2>
-      <p class="intro">
+      <h2 appReveal>Commence ton aventure</h2>
+      <p class="intro" appReveal>
         Envie de découvrir la plongée, de passer un nouveau brevet ou de partir avec le club ? Contactez-nous
         pour préparer ensemble votre prochaine aventure sous-marine — nous nous réjouissons de vous accueillir !
       </p>
 
-      <ul class="info">
+      <ul class="info" appReveal>
         <li><app-icon name="clock" [size]="22" /><span>{{ site.hours }}</span></li>
         <li>
           <app-icon name="map" [size]="22" />
@@ -33,7 +34,7 @@ import { PageHeroComponent } from '../../shared/components/page-hero.component';
         <li><app-icon name="mail" [size]="22" /><a [href]="'mailto:' + site.email">{{ site.email }}</a></li>
       </ul>
 
-      <iframe class="map" [src]="mapUrl" title="Plan d’accès Fare Moana" loading="lazy"></iframe>
+      <iframe class="map" appReveal="zoom" [src]="mapUrl" title="Plan d’accès Fare Moana" loading="lazy"></iframe>
     </section>
   `,
   styles: `

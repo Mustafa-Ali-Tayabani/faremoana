@@ -18,11 +18,12 @@ import { InfoCardComponent } from '../../shared/components/info-card.component';
 import { MobileActionBarComponent } from '../../shared/components/mobile-action-bar.component';
 import { MediaComponent } from '../../shared/components/media.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
 
 /** Event / trip page: 840px main column + 300px sidebar (details, map, other events). */
 @Component({
   selector: 'app-event-detail',
-  imports: [RouterLink, PageHeroComponent, MediaComponent, IconComponent, InfoCardComponent, MobileActionBarComponent],
+  imports: [RevealDirective, RouterLink, PageHeroComponent, MediaComponent, IconComponent, InfoCardComponent, MobileActionBarComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.scss',

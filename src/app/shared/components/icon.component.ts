@@ -13,6 +13,17 @@ export type IconName =
   | 'chevron-down'
   | 'menu'
   | 'close'
+  | 'arrow-right'
+  | 'arrow-left'
+  | 'arrow-up-right'
+  | 'play'
+  | 'pause'
+  | 'heart'
+  | 'message'
+  | 'send'
+  | 'bookmark'
+  | 'music'
+  | 'user-plus'
   | 'facebook'
   | 'youtube'
   | 'instagram'
@@ -39,9 +50,20 @@ const STROKE: Partial<Record<IconName, string[]>> = {
   'chevron-down': ['M5 9l7 7 7-7'],
   menu: ['M3 6h18M3 12h18M3 18h18'],
   close: ['M5 5l14 14M19 5L5 19'],
+  'arrow-right': ['M4 12h15M13 6l6 6-6 6'],
+  'arrow-left': ['M20 12H5M11 6l-6 6 6 6'],
+  'arrow-up-right': ['M7 17L17 7M8 7h9v9'],
+  heart: ['M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6.1 5 5 0 0 1 21.2 11C19 15.6 12 20 12 20z'],
+  message: ['M20 12a8 8 0 0 1-11.8 7L4 20l1.1-3.9A8 8 0 1 1 20 12z'],
+  send: ['M21 3L10 14', 'M21 3l-7 18-4-7-7-4z'],
+  bookmark: ['M6 3h12v18l-6-4-6 4z'],
+  music: ['M9 18V5l11-2v13', circle(6, 18, 3), circle(17, 16, 3)],
+  'user-plus': [circle(9, 8, 4), 'M2 21c0-4 3-6 7-6s7 2 7 6M19 8v6M16 11h6'],
 };
 
 const FILL: Partial<Record<IconName, string[]>> = {
+  play: ['M8 5.5v13a.8.8 0 0 0 1.2.7l10.4-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z'],
+  pause: ['M7 5h3.5v14H7zM13.5 5H17v14h-3.5z'],
   facebook: [
     'M12 2a10 10 0 0 0-1.6 19.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 12 2z',
   ],

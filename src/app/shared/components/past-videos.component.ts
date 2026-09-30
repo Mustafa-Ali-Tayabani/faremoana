@@ -1,65 +1,67 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PastVideo } from '../../core/models/content.models';
+import { RevealDirective } from '../motion/reveal.directive';
+import { IconComponent } from './icon.component';
+import { VideoCardComponent } from './video-card.component';
 
-/** “Vidéos … passés” block: letter-spaced turquoise label, 3 captioned YouTube embeds, outline button. */
+/** “Vidéos … passés” block: label, 3 video cards (player loads on click), YouTube channel button. */
 @Component({
   selector: 'app-past-videos',
+  imports: [IconComponent, RevealDirective, VideoCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h2>{{ label() }}</h2>
+    <div class="head" appReveal>
+      <h2>{{ label() }}</h2>
+      <a class="btn btn-outline" [href]="channel" target="_blank" rel="noopener">{{ buttonLabel() }} <app-icon name="youtube" /></a>
+    </div>
     <ul>
-      @for (v of embeds(); track v.id) {
-        <li>
-          <iframe [src]="v.url" [title]="v.caption" loading="lazy" allowfullscreen></iframe>
-          <p>{{ v.caption }}</p>
-        </li>
+      @for (v of videos(); track v.id) {
+        <li appReveal><app-video-card [id]="v.id" [title]="v.caption" /></li>
       }
     </ul>
-    <a class="btn btn-outline" [href]="channel" target="_blank" rel="noopener">{{ buttonLabel() }}</a>
   `,
   styles: `
-    :host { display: flex; flex-direction: column; align-items: center; padding: 30px 0 80px; }
+    :host {
+      display: block;
+      max-width: calc(1140px + 2 * var(--gutter));
+      margin: 0 auto;
+      padding: 40px var(--gutter) 100px;
+    }
+    .head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 40px;
+      border-top: 1px solid var(--c-divider);
+    }
     h2 {
-      margin: 0 0 70px;
-      color: var(--c-accent);
-      font: 600 18px / 24px var(--font-heading);
-      letter-spacing: 3.5px;
+      margin: 0;
+      color: var(--c-accent-strong);
+      font: 600 16px / 24px var(--font-heading);
+      letter-spacing: 3px;
       text-transform: uppercase;
     }
     ul {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      width: 100%;
-      max-width: 1297px;
-      margin: 0 0 60px;
-      padding: 0 var(--gutter);
+      gap: 28px;
+      margin: 36px 0 0;
+      padding: 0;
       list-style: none;
     }
-    iframe { display: block; width: 100%; aspect-ratio: 419 / 235; border: 0; border-radius: var(--radius-card); background: var(--c-black); }
-    p { margin: 18px 0 0; color: var(--c-ink); font: 600 14px / 18.2px var(--font-heading); }
-    .btn { padding: 12px 34px; }
+    @media (max-width: 1024px) { ul { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 767px) {
-      h2 { margin-bottom: 30px; text-align: center; }
-      ul { grid-template-columns: 1fr; gap: 28px; margin-bottom: 36px; }
+      :host { padding-bottom: 64px; }
+      .head { flex-direction: column; align-items: flex-start; }
+      ul { grid-template-columns: 1fr; gap: 28px; }
     }
   `,
 })
 export class PastVideosComponent {
-  private readonly sanitizer = inject(DomSanitizer);
-
   readonly label = input.required<string>();
   readonly videos = input.required<PastVideo[]>();
   readonly buttonLabel = input('Toutes les vidéos');
 
   protected readonly channel = 'https://www.youtube.com/faremoana';
-  protected readonly embeds = computed(() =>
-    this.videos().map((v) => ({
-      ...v,
-      url: this.sanitizer.bypassSecurityTrustResourceUrl(
-        `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.id)}`,
-      ),
-    })),
-  );
 }

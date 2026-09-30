@@ -1,6 +1,8 @@
+import { IconComponent } from './icon.component';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CatalogNode } from '../../core/models/content.models';
+import { RevealDirective } from '../motion/reveal.directive';
 import { MediaComponent } from './media.component';
 
 /**
@@ -10,13 +12,14 @@ import { MediaComponent } from './media.component';
  */
 @Component({
   selector: 'app-course-card',
-  imports: [RouterLink, MediaComponent],
+  imports: [IconComponent, RouterLink, MediaComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  hostDirectives: [RevealDirective],
   template: `
     <div class="card">
       <app-media class="thumb" [src]="course().cardImage ?? course().image" [alt]="course().label" />
       <h3>{{ course().title ?? course().label }}</h3>
-      <a class="more" [routerLink]="course().path">Plus d’infos<span class="visually-hidden"> – {{ course().label }}</span></a>
+      <a class="btn btn-outline btn-sm more" [routerLink]="course().path">Plus d’infos<span class="visually-hidden"> – {{ course().label }}</span> <app-icon name="arrow-right" /></a>
     </div>
   `,
   styles: `
@@ -44,20 +47,7 @@ import { MediaComponent } from './media.component';
       text-align: center;
       overflow-wrap: anywhere;
     }
-    .more {
-      margin-top: auto;
-      max-width: calc(100% - 24px);
-      padding: 20px clamp(16px, 12%, 40px);
-      border: 1px solid var(--c-accent);
-      border-radius: var(--radius-pill);
-      color: var(--c-accent);
-      font: 500 14px / 14px var(--font-body);
-      letter-spacing: 0.8px;
-      text-decoration: underline;
-      white-space: nowrap;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    .more:hover, .more:focus-visible { background: var(--c-accent); color: var(--c-white); }
+    .more { margin-top: auto; max-width: calc(100% - 20px); }
   `,
 })
 export class CourseCardComponent {

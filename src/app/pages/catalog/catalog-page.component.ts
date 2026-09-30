@@ -12,6 +12,7 @@ import { MediaComponent } from '../../shared/components/media.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
 import { MobileActionBarComponent } from '../../shared/components/mobile-action-bar.component';
 import { PriceBoxComponent } from '../../shared/components/price-box.component';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
 
 /**
  * Renders any catalogue node (category, course or simple page).
@@ -19,7 +20,7 @@ import { PriceBoxComponent } from '../../shared/components/price-box.component';
  */
 @Component({
   selector: 'app-catalog-page',
-  imports: [
+  imports: [RevealDirective, 
     RouterLink,
     PageHeroComponent,
     MediaComponent,

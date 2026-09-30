@@ -18,7 +18,7 @@ import { IconComponent } from './icon.component';
       @if (price()) {
         <span class="price">{{ price() }}</span>
       }
-      <a class="btn btn-filled cta" [routerLink]="ctaLink()">{{ ctaLabel() }}</a>
+      <a class="btn btn-filled cta" [routerLink]="ctaLink()">{{ ctaLabel() }} <app-icon name="arrow-right" /></a>
     </div>
   `,
   styles: `
@@ -48,7 +48,7 @@ import { IconComponent } from './icon.component';
         color: var(--c-accent);
       }
       .price { color: var(--c-ink); font: 600 16px / 1.2 var(--font-heading); white-space: nowrap; }
-      .cta { flex: 1; padding: 15px 20px; font-size: 15px; }
+      .cta { flex: 1; justify-content: space-between; }
     }
   `,
 })

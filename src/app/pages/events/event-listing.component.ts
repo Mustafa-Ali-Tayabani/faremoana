@@ -3,17 +3,18 @@ import { CardItem, EventItem, PastVideo } from '../../core/models/content.models
 import { InfoCardComponent } from '../../shared/components/info-card.component';
 import { PageHeroComponent } from '../../shared/components/page-hero.component';
 import { PastVideosComponent } from '../../shared/components/past-videos.component';
+import { RevealDirective } from '../../shared/motion/reveal.directive';
 
 /** Shared layout of the Évènements and Voyages pages: hero, intro, 3-column cards, past videos. */
 @Component({
   selector: 'app-event-listing',
-  imports: [PageHeroComponent, InfoCardComponent, PastVideosComponent],
+  imports: [RevealDirective, PageHeroComponent, InfoCardComponent, PastVideosComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-page-hero [title]="title()" [image]="heroImage()" />
     <div class="container page">
       @for (p of intro(); track $index) {
-        <p class="intro">{{ p }}</p>
+        <p class="intro" appReveal>{{ p }}</p>
       }
       <ul class="grid">
         @for (card of cards(); track card.title) {

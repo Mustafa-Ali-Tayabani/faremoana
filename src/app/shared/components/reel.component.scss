@@ -1,0 +1,228 @@
+/* Instagram brand gradient (used for the avatar ring and the glow behind the card). */
+$ig: linear-gradient(45deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+
+:host {
+  position: relative;
+  display: block;
+  width: min(100%, 360px);
+  margin-inline: auto;
+}
+
+/* Soft Instagram-coloured glow behind the phone-shaped card */
+.glow {
+  position: absolute;
+  inset: 8% -6% -4%;
+  z-index: 0;
+  border-radius: 40px;
+  background: $ig;
+  filter: blur(42px);
+  opacity: 0.45;
+  animation: glow 6s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { transform: scale(0.96) rotate(-2deg); opacity: 0.35; }
+  to { transform: scale(1.03) rotate(2deg); opacity: 0.55; }
+}
+
+.reel {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #000;
+  color: var(--c-white);
+  box-shadow: 0 30px 60px -20px rgba(9, 27, 64, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  font-family: var(--font-alt);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.video { position: absolute; inset: 0; }
+
+.tap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 22%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 38%);
+}
+
+/* ---------- Top: progress + author ---------- */
+.top { position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 12px 14px 0; pointer-events: none; }
+.progress {
+  height: 3px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.35);
+  span {
+    display: block;
+    height: 100%;
+    background: var(--c-white);
+    transform-origin: left;
+    transition: transform 0.25s linear;
+  }
+}
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  a { pointer-events: auto; color: var(--c-white); text-decoration: none; }
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border-radius: 50%;
+  background: $ig;
+  img { width: 100%; height: 100%; padding: 3px; border-radius: 50%; background: var(--c-white); object-fit: contain; }
+}
+.handle { font-weight: 600; }
+.sep { opacity: 0.7; }
+.follow {
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+  &:hover { background: var(--c-white); color: #000 !important; }
+}
+.ig { margin-left: auto; opacity: 0.9; }
+
+/* ---------- Right-hand actions ---------- */
+.side {
+  position: absolute;
+  right: 10px;
+  bottom: 88px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.act {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--c-white);
+  cursor: pointer;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  transition: transform 0.2s ease;
+  &:hover { transform: scale(1.12); }
+  &:active { transform: scale(0.9); }
+  &.on ::ng-deep svg { fill: currentColor; }
+  &.on:first-child { color: #ff3b5c; animation: pop 0.35s ease; }
+}
+@keyframes pop { 50% { transform: scale(1.3); } }
+
+.disc {
+  width: 32px;
+  height: 32px;
+  margin-top: 4px;
+  padding: 5px;
+  border: 5px solid #222;
+  border-radius: 50%;
+  background: #111;
+  animation: spin 5s linear infinite;
+  img { width: 100%; height: 100%; border-radius: 50%; background: var(--c-white); object-fit: contain; }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Caption ---------- */
+.caption {
+  position: absolute;
+  left: 14px;
+  right: 64px;
+  bottom: 14px;
+  z-index: 2;
+  pointer-events: none;
+  p { margin: 0; font-size: 13.5px; line-height: 1.45; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5); }
+  strong { font-weight: 600; margin-right: 4px; }
+  .tag { color: #9fe7ff; font-weight: 500; }
+}
+.audio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px !important;
+  font-size: 12.5px !important;
+  opacity: 0.95;
+}
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(90deg, #000 80%, transparent);
+  span { display: inline-block; animation: marquee 9s linear infinite; }
+}
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Overlays ---------- */
+.play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  translate: -50% -50%;
+  pointer-events: none;
+  animation: fade-in 0.25s ease;
+}
+@keyframes fade-in { from { opacity: 0; scale: 0.8; } }
+
+.burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  color: #ff3b5c;
+  translate: -50% -50%;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 20px rgba(255, 59, 92, 0.6));
+  animation: burst 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  ::ng-deep svg { fill: currentColor; }
+}
+@keyframes burst {
+  0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+  25% { opacity: 1; transform: scale(1.15) rotate(0); }
+  45% { transform: scale(0.95); }
+  70% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.1) translateY(-30px); }
+}
+
+/* ---------- Phones: bigger, edge-to-edge feel ---------- */
+@media (max-width: 767px) {
+  :host { width: min(100%, 420px); }
+  .reel { border-radius: 24px; }
+  .glow { inset: 6% 2% -2%; filter: blur(34px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow, .disc, .marquee span { animation: none; }
+}

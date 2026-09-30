@@ -115,7 +115,8 @@
   /* ---------- Layout ---------- */
   --container: 1140px;
   --gutter: 20px;
-  --header-h: 138px;
+  --header-h: 96px;
+  --header-h-scrolled: 74px;
   --radius-card: 10px;
   --radius-pill: 150px;
 }
@@ -129,7 +130,8 @@
     --fs-slide-title: 24px;
     --fs-event-title: 19px;
     --fs-event-date: 15px;
-    --header-h: 90px;
+    --header-h: 76px;
+    --header-h-scrolled: 64px;
   }
 }
 
@@ -137,7 +139,8 @@
   :root {
     --fs-hero-title: 28px;
     --gutter: 16px;
-    --header-h: 72px;
+    --header-h: 66px;
+    --header-h-scrolled: 60px;
     --fs-nav: 14px;
     --fs-eyebrow: 16px;
     --lh-eyebrow: 22.4px;

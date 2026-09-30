@@ -1,7 +1,8 @@
 :host {
   position: relative;
   display: block;
-  height: 690px;
+  /* Extends under the fixed transparent header. */
+  height: calc(690px + var(--header-h));
   overflow: hidden;
   background: var(--c-navy-deep);
   /* Vertical scrolling stays native; horizontal swipes change slides. */
@@ -22,16 +23,30 @@
 }
 
 .bg { position: absolute; inset: 0; transform: scale(1); transition: transform 6s linear; }
-.bg::after { content: ''; position: absolute; inset: 0; background: var(--overlay-hero); }
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Soft dark fade at the top keeps the transparent header readable */
+  background: linear-gradient(180deg, rgba(3, 12, 30, 0.6) 0%, rgba(3, 12, 30, 0.25) calc(var(--header-h) + 40px), rgba(3, 12, 30, 0) 45%), var(--overlay-hero);
+}
 .slide.active .bg { transform: scale(1.15); }
 
 .content {
   position: relative;
   max-width: 900px;
-  padding: 0 var(--gutter);
+  padding: var(--header-h) var(--gutter) 0;
   color: var(--c-white);
   text-align: center;
 }
+
+/* Staggered entrance of the slide text each time a slide becomes active. */
+.content > * { opacity: 0; transform: translateY(26px); }
+.slide.active .content > * { animation: slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.slide.active .content > :nth-child(2) { animation-delay: 0.12s; }
+.slide.active .content > :nth-child(3) { animation-delay: 0.24s; }
+.slide.active .content > :nth-child(4) { animation-delay: 0.36s; }
+@keyframes slide-in { to { opacity: 1; transform: none; } }
 
 .eyebrow { margin: 0 0 16px; font: 600 var(--fs-slide-eyebrow) / 1.3 var(--font-arial); }
 h2 { margin: 0 0 10px; color: var(--c-white); font: 600 var(--fs-slide-title) / var(--lh-slide-title) var(--font-heading); }
@@ -68,11 +83,11 @@ h2 { margin: 0 0 10px; color: var(--c-white); font: 600 var(--fs-slide-title) / 
   button.active { background: radial-gradient(circle, var(--c-white) 4px, transparent 4.5px); }
 }
 
-@media (max-width: 1024px) { :host { height: 560px; } }
+@media (max-width: 1024px) { :host { height: calc(560px + var(--header-h)); } }
 
 @media (max-width: 767px) {
   /* Never taller than the screen below the header (matters in landscape). */
-  :host { height: min(460px, calc(100svh - var(--header-h))); min-height: 320px; }
+  :host { height: min(calc(460px + var(--header-h)), 100svh); min-height: calc(320px + var(--header-h)); }
   .arrow { display: none; }
   .eyebrow { margin-bottom: 8px; }
   .subtitle { margin-bottom: 22px; }
@@ -80,13 +95,14 @@ h2 { margin: 0 0 10px; color: var(--c-white); font: 600 var(--fs-slide-title) / 
 
 /* Short landscape phones */
 @media (max-height: 500px) and (orientation: landscape) {
-  :host { height: calc(100svh - var(--header-h)); min-height: 280px; }
+  :host { height: 100svh; min-height: calc(280px + var(--header-h)); }
   .eyebrow { font-size: 30px; margin-bottom: 4px; }
   .subtitle { margin-bottom: 14px; }
-  .btn-hero { padding: 12px 30px; }
+  .btn-hero { min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .slide, .bg { transition: none; }
   .slide.active .bg { transform: none; }
+  .content > *, .slide.active .content > * { opacity: 1; transform: none; animation: none; }
 }

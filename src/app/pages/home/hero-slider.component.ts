@@ -45,7 +45,7 @@ const SWIPE_THRESHOLD = 40;
           <p class="eyebrow">{{ slide.eyebrow }}</p>
           <h2>{{ slide.title }}</h2>
           <p class="subtitle">{{ slide.subtitle }}</p>
-          <a class="btn btn-hero" [routerLink]="slide.link" [attr.tabindex]="i === current() ? 0 : -1">En savoir plus</a>
+          <a class="btn btn-hero" [routerLink]="slide.link" [attr.tabindex]="i === current() ? 0 : -1">En savoir plus <app-icon name="arrow-right" /></a>
         </div>
       </div>
     }

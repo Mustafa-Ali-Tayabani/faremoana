@@ -4,7 +4,7 @@
 @if (n.kind === 'course' || n.layout === 'detail') {
   <article class="container course">
     <header class="course-head" [class.no-video]="!videoUrl()">
-      <div class="course-intro">
+      <div class="course-intro" appReveal="left">
         @if (n.eyebrow ?? parent()?.title ?? parent()?.label; as eyebrow) {
           <p class="eyebrow">{{ eyebrow }}</p>
         }
@@ -26,13 +26,13 @@
         </div>
       </div>
       @if (videoUrl(); as url) {
-        <div class="video">
+        <div class="video" appReveal="right">
           <iframe [src]="url" [title]="title()" loading="lazy" allowfullscreen></iframe>
         </div>
       }
     </header>
 
-    <div class="prose">
+    <div class="prose" appReveal>
       @for (p of n.intro ?? []; track $index) {
         @if (isSubheading(p)) {
           <h3>{{ p }}</h3>
@@ -67,7 +67,7 @@
     </div>
 
     @if (n.included?.length || n.requirements?.length) {
-      <div class="checklists">
+      <div class="checklists" appReveal>
         @if (n.included?.length) {
           <section>
             <h3>Inclus</h3>
@@ -91,7 +91,7 @@
       </div>
     }
 
-    <div class="booking">
+    <div class="booking" appReveal>
       <app-elearning-promo />
       @if (n.priceBox; as box) {
         <app-price-box
@@ -110,7 +110,7 @@
 
   @if (n.kind === 'course') {
   <section class="more">
-    <h2>PLUS DE COURS</h2>
+    <h2 appReveal>PLUS DE COURS</h2>
     <div class="container">
       <ul class="more-grid">
         @for (c of related(); track c.path) {
@@ -123,11 +123,11 @@
 } @else {
   <div class="container page">
     @for (p of n.intro ?? []; track $index) {
-      <p class="intro" [class.lead]="$index === 1">{{ p }}</p>
+      <p class="intro" appReveal [class.lead]="$index === 1">{{ p }}</p>
     }
 
     @if (n.introImages?.length) {
-      <div class="intro-images">
+      <div class="intro-images" appReveal>
         @for (img of n.introImages; track img.src) {
           <img [src]="img.src" [alt]="img.alt" [style.width.px]="img.width" loading="lazy" />
         }
@@ -135,7 +135,7 @@
     }
 
     @for (section of n.sections ?? []; track $index) {
-      <section class="text-section">
+      <section class="text-section" appReveal>
         @if (section.heading) {
           <h2>{{ section.heading }}</h2>
         }
@@ -155,7 +155,7 @@
     <!-- Overview with collapsible sub-categories (Formations loisirs) -->
     @if (isOverview()) {
       <h2 class="list-title center">Vous trouverez chez Fare Moana le cours qui vous convient !</h2>
-      <div class="accordions">
+      <div class="accordions" appReveal>
         @for (child of n.children; track child.path) {
           @if (child.children?.length) {
             <details>
@@ -176,7 +176,7 @@
       </div>
     } @else if (n.children?.length && !n.cards) {
       <h2 class="list-title">{{ n.listTitle ?? 'Formations' }}</h2>
-      <ul class="links">
+      <ul class="links" appReveal>
         @for (child of n.children; track child.path) {
           <li><a [routerLink]="child.path">{{ child.title ?? child.label }}</a></li>
         }
@@ -194,7 +194,7 @@
     @if (n.partners?.length) {
       <ul class="partners">
         @for (partner of n.partners; track partner.name) {
-          <li>
+          <li appReveal>
             <div class="partner-logo">
               @if (partner.logo) {
                 <img [src]="partner.logo" [alt]="partner.name" loading="lazy" (error)="$any($event.target).hidden = true" />
@@ -217,7 +217,7 @@
     }
 
     @if (n.priceTable; as table) {
-      <section class="price-table">
+      <section class="price-table" appReveal>
         <app-icon name="tag" [size]="30" />
         <h2>{{ table.title }}</h2>
         <div class="table-scroll">
@@ -240,12 +240,12 @@
             </tbody>
           </table>
         </div>
-        <a class="btn btn-filled" routerLink="/contact">Contactez-nous</a>
+        <a class="btn btn-filled" routerLink="/contact">Contactez-nous <app-icon name="mail" /></a>
       </section>
     }
 
     @if (n.priceBox || n.showElearning) {
-      <div class="booking" [class.single]="!n.priceBox">
+      <div class="booking" appReveal [class.single]="!n.priceBox">
         @if (n.showElearning) {
           <app-elearning-promo />
         }
@@ -261,17 +261,17 @@
     }
 
     @if (n.feature; as f) {
-      <div class="feature">
+      <div class="feature" appReveal>
         <div class="feature-cta">
           <img [src]="f.logo" alt="PADI eLearning" loading="lazy" />
-          <a class="btn btn-outline" [href]="f.ctaLink" target="_blank" rel="noopener">{{ f.ctaLabel }}</a>
+          <a class="btn btn-outline" [href]="f.ctaLink" target="_blank" rel="noopener">{{ f.ctaLabel }} <app-icon name="arrow-up-right" /></a>
         </div>
         <img class="feature-photo" [src]="f.photo" alt="" loading="lazy" />
       </div>
     }
 
     @if (n.chartImage; as chart) {
-      <img class="chart" [src]="chart.src" [alt]="chart.alt" [style.max-width.px]="chart.width" loading="lazy" />
+      <img class="chart" appReveal="zoom" [src]="chart.src" [alt]="chart.alt" [style.max-width.px]="chart.width" loading="lazy" />
     }
 
     @if (!n.intro?.length && !n.sections?.length && !n.children?.length && !cards().length && !n.partners?.length) {
