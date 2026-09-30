@@ -50,11 +50,41 @@ export const WELCOME = {
 };
 
 export const SERVICES: ServiceTeaser[] = [
-  { title: 'Formations', link: '/formations-loisirs', image: 'images/home/service-formations.webp' },
-  { title: 'Pro', link: '/formations-pro', image: 'images/home/service-pro.webp' },
-  { title: 'Secourisme', link: '/secourisme', image: 'images/home/service-secourisme.webp' },
-  { title: 'Voyages', link: '/voyages', image: 'images/home/service-voyages.webp' },
-  { title: 'Club', link: '/services/le-club', image: 'images/home/service-club.webp' },
+  {
+    title: 'Formations',
+    link: '/formations-loisirs',
+    image: 'images/home/service-formations.webp',
+    text: 'Du baptême au Master Scuba Diver : des cours PADI pour tous les niveaux.',
+    highlights: ['Dès 8 ans', 'Toute l’année', 'e-Learning'],
+  },
+  {
+    title: 'Pro',
+    link: '/formations-pro',
+    image: 'images/home/service-pro.webp',
+    text: 'Divemaster, instructeur, IDC : faites de votre passion un métier.',
+    highlights: ['Divemaster', 'IDC', 'Instructeur'],
+  },
+  {
+    title: 'Secourisme',
+    link: '/secourisme',
+    image: 'images/home/service-secourisme.webp',
+    text: 'Les gestes qui sauvent, sous l’eau comme à terre.',
+    highlights: ['EFR', 'Oxygène', 'Instructeur'],
+  },
+  {
+    title: 'Voyages',
+    link: '/voyages',
+    image: 'images/home/service-voyages.webp',
+    text: 'Safaris et week-ends plongée avec le club, en Suisse et à l’étranger.',
+    highlights: ['Mer', 'Lacs', 'Sous glace'],
+  },
+  {
+    title: 'Club',
+    link: '/services/le-club',
+    image: 'images/home/service-club.webp',
+    text: 'Sorties, entraînements et vie de club tout au long de l’année.',
+    highlights: ['Sorties', 'Piscine', 'Réductions'],
+  },
 ];
 
 export const REASONS: Reason[] = [

@@ -95,7 +95,11 @@ export class BackToTopComponent {
         const max = document.documentElement.scrollHeight - innerHeight;
         const progress = max > 0 ? Math.min(1, scrollY / max) : 0;
         ring.style.strokeDashoffset = String(CIRCUMFERENCE * (1 - progress));
-        host.classList.toggle('visible', scrollY > innerHeight * 0.8);
+        // Phones: step aside once the footer (with its own “Haut de page” link) is on screen,
+        // so the button never covers the footer buttons.
+        const footer = document.querySelector('app-footer');
+        const overFooter = innerWidth < 768 && !!footer && footer.getBoundingClientRect().top < innerHeight - 60;
+        host.classList.toggle('visible', scrollY > innerHeight * 0.8 && !overFooter);
       };
       const onScroll = () => { frame ||= requestAnimationFrame(update); };
       zone.runOutsideAngular(() => {

@@ -11,11 +11,13 @@ import {
   WELCOME,
 } from '../../core/content/home';
 import { SITE } from '../../core/content/site';
-import { ContentService } from '../../core/services/content.service';
+import { ContentService, flattenCatalog } from '../../core/services/content.service';
 import { EventCardComponent } from '../../shared/components/event-card.component';
 import { MediaComponent } from '../../shared/components/media.component';
 import { SectionHeadingComponent } from '../../shared/components/section-heading.component';
 import { IconComponent } from '../../shared/components/icon.component';
+import { TiltDirective } from '../../shared/motion/tilt.directive';
+import { CarouselDotsComponent } from '../../shared/components/carousel-dots.component';
 import { VideoCardComponent } from '../../shared/components/video-card.component';
 import { ReelComponent } from '../../shared/components/reel.component';
 import { RevealDirective } from '../../shared/motion/reveal.directive';
@@ -31,6 +33,8 @@ import { HeroSliderComponent } from './hero-slider.component';
     EventCardComponent,
     ReelComponent,
     VideoCardComponent,
+    CarouselDotsComponent,
+    TiltDirective,
     IconComponent,
     RevealDirective,
   ],
@@ -46,7 +50,18 @@ export class HomeComponent {
   protected readonly promoBackground = PROMO_BACKGROUND;
   protected readonly servicesBackground = SERVICES_BACKGROUND;
   protected readonly depthsBackground = DEPTHS_BACKGROUND;
-  protected readonly services = SERVICES;
+  /** Service cards with a live count badge (“25 formations”, “4 voyages”). */
+  protected readonly services = SERVICES.map((service) => {
+    const node = this.content.node(service.link);
+    const courses = flattenCatalog(node?.children ?? []).filter((n) => n.kind === 'course').length;
+    const count =
+      service.link === '/voyages'
+        ? `${this.content.voyages.length} voyages`
+        : courses
+          ? `${courses} formation${courses > 1 ? 's' : ''}`
+          : undefined;
+    return { ...service, count };
+  });
   protected readonly reasons = REASONS;
   protected readonly events = this.content.homeEvents;
   /** Featured trip for the promo banner: the first upcoming “voyage”. */

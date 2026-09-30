@@ -148,6 +148,21 @@ h3 {
   p { margin: 0; font: 300 13px / 1.5 var(--font-body); }
 }
 .bottom-inner .padi { color: rgba(255, 255, 255, 0.5); }
+/* Phones only: the floating back-to-top button hides over the footer, this link replaces it. */
+.to-top-link {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: none;
+  color: var(--c-white);
+  font: 500 13px / 1 var(--font-body);
+  cursor: pointer;
+  app-icon { transform: rotate(-90deg); color: var(--c-accent); }
+}
 .to-top {
   display: grid;
   place-items: center;
@@ -196,8 +211,20 @@ h3 {
   .socials { justify-content: center; a { width: 44px; height: 44px; } }
   h3 { margin-bottom: 14px; }
   .links a { padding: 7px 0; }
-  .cert { align-self: center; margin-top: -58px; img { width: 104px; } }
+  /* Certification as a compact row inside the box (no overlap with the wave) */
+  .cert {
+    flex-direction: row;
+    align-self: stretch;
+    gap: 14px;
+    margin: 0 0 6px;
+    padding: 10px 16px 10px 10px;
+    border-radius: 14px;
+    text-align: left;
+    img { width: 58px; }
+    figcaption { font-size: 12.5px; text-align: left; strong { font-size: 15px; } }
+  }
   .bottom-inner { flex-direction: column; text-align: center; gap: 4px; }
+  .to-top-link { display: inline-flex; }
 
   .bottom-inner p { font-size: 12px; }
 }

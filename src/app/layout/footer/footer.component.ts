@@ -46,4 +46,9 @@ export class FooterComponent {
       ],
     },
   ];
+
+  protected toTop(): void {
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+  }
 }

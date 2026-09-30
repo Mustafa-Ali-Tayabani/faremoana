@@ -30,15 +30,41 @@
 <section class="services" [style.--services-bg]="'url(' + servicesBackground + ')'">
   <div class="container">
     <app-section-heading appReveal eyebrow="NOS SERVICES" [lines]="['Découvrez tous nos services']" />
-    <ul class="service-grid">
+    <ul #serviceRow class="service-grid">
       @for (s of services; track s.link) {
-        <li class="service-card" appReveal>
-          <a [routerLink]="s.link" tabindex="-1" aria-hidden="true"><app-media class="thumb" [src]="s.image" /></a>
-          <h3>{{ s.title }}</h3>
-          <a class="more link-arrow" [routerLink]="s.link">En savoir plus<span class="visually-hidden"> – {{ s.title }}</span><app-icon name="arrow-right" [size]="14" /></a>
+        <li appReveal>
+          <a class="service-card" [routerLink]="s.link" appTilt>
+            <app-media class="thumb" [src]="s.image" [alt]="s.title" />
+            <span class="glare" aria-hidden="true"></span>
+            @if (s.count) {
+              <span class="count">{{ s.count }}</span>
+            }
+            <span class="panel">
+              <span class="title-row">
+                <h3>{{ s.title }}</h3>
+                <span class="go" aria-hidden="true"><app-icon name="arrow-right" [size]="16" /></span>
+              </span>
+              <span class="details">
+                <span class="details-inner">
+                  @if (s.text) {
+                    <span class="text">{{ s.text }}</span>
+                  }
+                  @if (s.highlights?.length) {
+                    <span class="chips">
+                      @for (h of s.highlights; track h) {
+                        <span class="chip"><app-icon name="check" [size]="11" />{{ h }}</span>
+                      }
+                    </span>
+                  }
+                  <span class="cta">En savoir plus <app-icon name="arrow-right" [size]="14" /></span>
+                </span>
+              </span>
+            </span>
+          </a>
         </li>
       }
     </ul>
+    <app-carousel-dots [for]="serviceRow" />
   </div>
 </section>
 
@@ -80,11 +106,12 @@
         <app-section-heading eyebrow="COMMENCE TON AVENTURE" [lines]="['Les évènements à venir']" tone="light" />
         <a class="btn btn-glass" routerLink="/evenements">Tous nos évènements <app-icon name="calendar" /></a>
       </div>
-      <ul class="event-grid">
+      <ul #eventRow class="event-grid">
         @for (e of events; track e.path) {
           <li><app-event-card appReveal [event]="e" /></li>
         }
       </ul>
+      <app-carousel-dots [for]="eventRow" />
     </div>
   </section>
 </div>
@@ -97,11 +124,12 @@
         <app-section-heading eyebrow="VIDÉOS" [lines]="['Nos dernières aventures de plongée']" />
         <a class="btn btn-outline" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos <app-icon name="youtube" /></a>
       </div>
-      <ul class="video-grid">
+      <ul #videoRow class="video-grid">
         @for (v of videos; track v.id) {
           <li appReveal><app-video-card [id]="v.id" [title]="v.title" [tag]="v.tag" /></li>
         }
       </ul>
+      <app-carousel-dots [for]="videoRow" />
     </div>
   </section>
 }

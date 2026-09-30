@@ -162,6 +162,10 @@ export interface ServiceTeaser {
   title: string;
   link: string;
   image?: string;
+  /** One-line description revealed on hover. */
+  text?: string;
+  /** Short highlight chips revealed on hover. */
+  highlights?: string[];
 }
 
 export interface Reason {
