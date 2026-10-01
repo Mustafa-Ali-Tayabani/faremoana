@@ -1,8 +1,10 @@
 <a class="skip-link visually-hidden" href="#content">Aller au contenu</a>
 
 <header class="bar">
+  <!-- Logo: white over the banner, original colours once scrolled (same size as the PADI badge) -->
   <a class="logo" routerLink="/" aria-label="Fare Moana – accueil">
-    <app-logo />
+    <img class="logo-white" src="images/brand/logo-white.webp" alt="Fare Moana – Centre de plongée" width="478" height="568" />
+    <img class="logo-color" src="images/brand/logo.webp" alt="" aria-hidden="true" width="478" height="568" />
   </a>
 
   <!-- Desktop: mega menu -->
@@ -108,7 +110,6 @@
   </nav>
 
   <div class="actions">
-    <a class="btn btn-sm cta" routerLink="/contact">Réserver <app-icon name="arrow-right" /></a>
     <button
       type="button"
       class="burger"

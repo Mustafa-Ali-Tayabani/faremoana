@@ -27,7 +27,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   align-items: center;
   gap: 28px;
   height: var(--bar-h);
-  padding: 0 calc(120px + 32px + 28px) 0 48px; /* right: room for the hanging badge */
+  /* Left/right: room for the hanging logo and badge */
+  padding: 0 calc(32px + 120px + 28px) 0 calc(48px + 120px + 28px);
   color: var(--c-white);
   /* Very low dark tint so the links stay readable over bright photos */
   background: linear-gradient(180deg, rgba(3, 12, 30, 0.32) 0%, rgba(3, 12, 30, 0.16) 100%);
@@ -52,51 +53,65 @@ ul { margin: 0; padding: 0; list-style: none; }
   &::after { background: rgba(9, 27, 64, 0.06); }
 }
 
-/* Logo: a soft white halo keeps the dark “Moana” lettering readable over photos */
-.logo { display: block; flex: none; }
-.logo app-logo {
-  display: block;
-  height: calc(var(--bar-h) - 14px);
-  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
-  transition: height 0.35s var(--ease), filter 0.35s ease;
+/*
+ * Logo and PADI badge are a matching pair: both hang from the top edge at the same height
+ * (--mark-h), the logo on the left, the badge on the right. Sizes shrink together on scroll.
+ */
+:host {
+  /* Artwork height: logo and badge always fit inside the bar, so the divider runs below them. */
+  --mark-h: calc(var(--bar-h) - 16px);
 }
-:host(.scrolled) .logo app-logo { filter: none; height: calc(var(--bar-h) - 12px); }
+@media (max-width: 1024px) { :host { --mark-h: calc(var(--bar-h) - 12px); } }
 
-/* ---------- Actions ---------- */
-.actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
-
-.cta {
-  --btn-bg: transparent;
-  --btn-fg: var(--c-white);
-  --btn-border: rgba(255, 255, 255, 0.55);
-}
-:host(.scrolled) .cta,
-.cta:hover {
-  --btn-bg: var(--c-accent);
-  --btn-fg: var(--c-card-ink);
-  --btn-border: var(--c-accent);
-  --chip-bg: var(--c-card-ink);
-  --chip-fg: var(--c-white);
-}
-
-/* PADI 5 Star IDC hanging tag */
-.badge-tag {
+/* Logo: white over the banner, original colours once scrolled. No glow. */
+.logo {
   position: absolute;
-  top: 0;
-  right: 32px;
+  top: 50%;
+  left: 48px;
+  translate: 0 -50%;
   z-index: 2;
   display: block;
-  width: 120px;
-  padding: 10px 8px 12px;
-  background: var(--c-black);
-  border-radius: 0 0 14px 14px;
-  box-shadow: 0 18px 36px -12px rgba(0, 0, 0, 0.55);
-  transition: width 0.35s var(--ease), padding 0.35s var(--ease), transform 0.3s var(--ease);
+  height: var(--mark-h);
+  aspect-ratio: 478 / 568;
+  transition: height 0.35s var(--ease);
 
-  img { display: block; width: 100%; height: auto; }
-  &:hover { transform: translateY(3px); }
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.35s ease;
+  }
 }
-:host(.scrolled) .badge-tag { width: 76px; padding: 6px 6px 8px; }
+.logo-color { opacity: 0; }
+:host(.scrolled) .logo-white { opacity: 0; }
+:host(.scrolled) .logo-color { opacity: 1; }
+
+/* ---------- Actions (tablet / phone menu button only) ---------- */
+.actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+@media (min-width: 1025px) { .actions { display: none; } }
+
+/* PADI 5 Star IDC: hanging tag, straight corners, same artwork height as the logo */
+.badge-tag {
+  position: absolute;
+  top: 50%;
+  right: 48px;
+  z-index: 2;
+  display: block;
+  padding: 0;
+  background: var(--c-black);
+  translate: 0 -50%;
+  transition: transform 0.3s var(--ease);
+
+  img {
+    display: block;
+    height: var(--mark-h);
+    width: auto;
+    transition: height 0.35s var(--ease);
+  }
+  &:hover { transform: translateY(-2px); }
+}
 
 /* ---------- Desktop: top-level links ---------- */
 .desk { align-self: stretch; margin: 0 auto; }
@@ -340,20 +355,27 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* ---------- Desktop sizes ---------- */
 .burger, .nav, .overlay { display: none; }
 
-@media (max-width: 1360px) { .cta { display: none; } }
-@media (max-width: 1240px) {
-  .bar { padding-left: 28px; padding-right: calc(96px + 20px + 20px); }
+/* Laptops: the hanging logo and badge narrow the menu, so tighten it in two steps. */
+@media (max-width: 1440px) {
+  .bar { padding-left: calc(28px + 96px + 16px); padding-right: calc(20px + 104px + 16px); }
+  .logo { left: 28px; }
   .top-link { padding: 0 9px; font-size: 13.5px; &::after { left: 9px; right: 9px; } }
-  .badge-tag { right: 20px; width: 96px; }
+  .badge-tag { right: 28px; }
   .mega-body { grid-template-columns: 1fr 260px; }
+}
+@media (max-width: 1200px) {
+  .bar { padding-left: calc(20px + 80px + 12px); padding-right: calc(16px + 86px + 12px); }
+  .logo { left: 20px; }
+  .top-link { padding: 0 6px; font-size: 12.5px; gap: 3px; &::after { left: 6px; right: 6px; } }
+  .badge-tag { right: 20px; }
 }
 
 /* ---------- Tablet / phone: compact bar + off-canvas panel ---------- */
 @media (max-width: 1024px) {
   .desk { display: none; }
   .bar { padding: 0 calc(76px + 12px + 16px) 0 var(--gutter); }
-  .badge-tag { right: 12px; width: 76px; padding: 6px 6px 8px; border-radius: 0 0 10px 10px; }
-  :host(.scrolled) .badge-tag { width: 60px; padding: 5px 5px 6px; }
+  .logo { left: var(--gutter); }
+  .badge-tag { right: 12px; }
 
   .burger {
     position: relative;
@@ -493,6 +515,5 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 @media (max-width: 767px) {
   .bar { padding-right: calc(62px + 10px + 12px); }
-  .badge-tag { right: 10px; width: 62px; padding: 5px 5px 6px; }
-  :host(.scrolled) .badge-tag { width: 50px; padding: 4px 4px 5px; }
+  .badge-tag { right: 10px; }
 }
