@@ -19,10 +19,6 @@ import { MediaComponent } from './media.component';
     <a class="card" [routerLink]="event().link ?? event().path" appTilt="5">
       <div class="media">
         <app-media class="thumb" [src]="event().homeImage ?? event().image" [alt]="event().title" />
-        <span class="badge">
-          <app-icon [name]="event().kind === 'voyage' ? 'send' : 'map'" [size]="12" />
-          {{ event().kind === 'voyage' ? 'Voyage' : 'Sortie club' }}
-        </span>
         <span class="glare" aria-hidden="true"></span>
 
         <div class="panel">

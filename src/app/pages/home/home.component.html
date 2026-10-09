@@ -36,9 +36,6 @@
           <a class="service-card" [routerLink]="s.link" appTilt>
             <app-media class="thumb" [src]="s.image" [alt]="s.title" />
             <span class="glare" aria-hidden="true"></span>
-            @if (s.count) {
-              <span class="count">{{ s.count }}</span>
-            }
             <span class="panel">
               <span class="title-row">
                 <h3>{{ s.title }}</h3>
@@ -104,7 +101,7 @@
     <div class="container">
       <div class="events-head" appReveal>
         <app-section-heading eyebrow="COMMENCE TON AVENTURE" [lines]="['Les évènements à venir']" tone="light" />
-        <a class="btn btn-glass" routerLink="/evenements">Tous nos évènements <app-icon name="calendar" /></a>
+        <a class="btn btn-glass" routerLink="/evenements">Tous nos évènements <app-icon name="arrow-right" /></a>
       </div>
       <ul #eventRow class="event-grid">
         @for (e of events; track e.path) {
@@ -122,7 +119,7 @@
     <div class="container">
       <div class="videos-head" appReveal>
         <app-section-heading eyebrow="VIDÉOS" [lines]="['Nos dernières aventures de plongée']" />
-        <a class="btn btn-outline" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos <app-icon name="youtube" /></a>
+        <a class="btn btn-outline" [href]="youtubeChannel" target="_blank" rel="noopener">Toutes les vidéos <app-icon name="arrow-right" /></a>
       </div>
       <ul #videoRow class="video-grid">
         @for (v of videos; track v.id) {

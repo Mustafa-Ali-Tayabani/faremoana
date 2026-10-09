@@ -24,9 +24,6 @@ import { IconComponent } from './icon.component';
         <button type="button" class="poster" (click)="playing.set(true)" [attr.aria-label]="'Lire la vidéo : ' + title()">
           <img [src]="thumbnail()" alt="" loading="lazy" />
           <span class="play"><app-icon name="play" [size]="22" /></span>
-          @if (tag()) {
-            <span class="tag">{{ tag() }}</span>
-          }
         </button>
       }
     </div>

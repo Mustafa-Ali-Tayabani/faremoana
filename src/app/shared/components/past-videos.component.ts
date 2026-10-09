@@ -12,7 +12,7 @@ import { VideoCardComponent } from './video-card.component';
   template: `
     <div class="head" appReveal>
       <h2>{{ label() }}</h2>
-      <a class="btn btn-outline" [href]="channel" target="_blank" rel="noopener">{{ buttonLabel() }} <app-icon name="youtube" /></a>
+      <a class="btn btn-outline" [href]="channel" target="_blank" rel="noopener">{{ buttonLabel() }} <app-icon name="arrow-right" /></a>
     </div>
     <ul>
       @for (v of videos(); track v.id) {
